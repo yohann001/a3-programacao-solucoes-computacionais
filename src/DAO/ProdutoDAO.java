@@ -44,10 +44,10 @@ public class ProdutoDAO {
             Class.forName(driver);
 
             String server = "localhost";
-            String database = "db_produtos";
+            String database = "estoque_db";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "rootpass";
+            String password = "senhabd123";
 
             connection = DriverManager.getConnection(url, user, password);
 
