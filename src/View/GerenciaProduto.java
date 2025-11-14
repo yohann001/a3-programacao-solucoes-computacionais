@@ -5,11 +5,11 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class GerenciaAluno extends javax.swing.JFrame {
+public class GerenciaProduto extends javax.swing.JFrame {
 
-    private Aluno objaluno; // cria o vínculo com o objaluno
+    private Aluno objaluno; // cria o vï¿½nculo com o objaluno
 
-    public GerenciaAluno() {
+    public GerenciaProduto() {
         initComponents();
         this.objaluno = new Aluno(); // carrega objaluno de aluno
         this.carregaTabela();
@@ -177,7 +177,7 @@ public class GerenciaAluno extends javax.swing.JFrame {
     private void b_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_alterarActionPerformed
 
         try {
-            // recebendo e validando dados da interface gráfica.
+            // recebendo e validando dados da interface grï¿½fica.
             int id = 0;
             String nome = "";
             int idade = 0;
@@ -191,7 +191,7 @@ public class GerenciaAluno extends javax.swing.JFrame {
             }
 
             if (this.c_idade.getText().length() <= 0) {
-                throw new Mensagens("Idade deve ser número e maior que zero.");
+                throw new Mensagens("Idade deve ser nï¿½mero e maior que zero.");
             } else {
                 idade = Integer.parseInt(this.c_idade.getText());
             }
@@ -203,7 +203,7 @@ public class GerenciaAluno extends javax.swing.JFrame {
             }
 
             if (this.c_fase.getText().length() <= 0) {
-                throw new Mensagens("Fase deve ser número e maior que zero.");
+                throw new Mensagens("Fase deve ser nï¿½mero e maior que zero.");
             } else {
                 fase = Integer.parseInt(this.c_fase.getText());
             }
@@ -229,7 +229,7 @@ public class GerenciaAluno extends javax.swing.JFrame {
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um número.");
+            JOptionPane.showMessageDialog(null, "Informe um nï¿½mero.");
         } finally {
             carregaTabela(); // atualiza a tabela.
         }
@@ -254,7 +254,7 @@ public class GerenciaAluno extends javax.swing.JFrame {
 
     private void b_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_apagarActionPerformed
         try {
-            // validando dados da interface gráfica.
+            // validando dados da interface grï¿½fica.
             int id = 0;
             if (this.jTableAlunos.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro Selecione um Aluno para APAGAR");
@@ -262,7 +262,7 @@ public class GerenciaAluno extends javax.swing.JFrame {
                 id = Integer.parseInt(this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 0).toString());
             }
 
-            // retorna 0 -> primeiro botão | 1 -> segundo botão | 2 -> terceiro botão
+            // retorna 0 -> primeiro botï¿½o | 1 -> segundo botï¿½o | 2 -> terceiro botï¿½o
             int resposta_usuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja APAGAR este Aluno ?");
 
             if (resposta_usuario == 0) {// clicou em SIM
@@ -328,20 +328,20 @@ public class GerenciaAluno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciaAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciaAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciaAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciaAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaAluno().setVisible(true);
+                new GerenciaProduto().setVisible(true);
             }
         });
         
