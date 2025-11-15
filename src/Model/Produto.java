@@ -1,10 +1,8 @@
 package Model;
 
 import DAO.ProdutoDAO;
-import java.util.;
-import java.sql.;
-import java.util.ArrayList;
-
+import java.util.*;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class Produto {
@@ -90,30 +88,25 @@ public class Produto {
                "\n Preço: " + this.getPreco() +
                "\n Data de Cadastro: " + this.getData_cadastro() +
                 "\n---------------------------";
-
-    public Arraylist<Produtos> getListaProdutos() {
-        return dao.getMinhalista();
     }
 
-    public boolean InsertProduto(String nome_produto, String descricao_produto, int quantidade_estoque, double preco,
-            LocalDate data_cadastro) {
+    public ArrayList<Produto> getListaProduto() {
+        return dao.getMinhaLista();
+    }
+
+    public boolean InsertProduto(String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data_cadastro) throws SQLException {
         int id = this.maiorID() + 1;
         Produto objeto = new Produto(id, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro);
-
-        return dao.InsertProduto(objeto);
-        return true;
+        return dao.InsertProdutoBD(objeto);
     }
 
     public boolean DeleteProduto(int id) {
-        dao.DeleteProduto(id);
-        return true;
+        return dao.DeleteProdutoBD(id);
     }
 
-    public boolean UpdateProduto(int id, String nome_produto, String descricao_produto, int quantidade_estoque,
-            double preco, LocalDate data_cadastro) {
+    public boolean UpdateProduto(int id, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data_cadastro) {
         Produto objeto = new Produto(id, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro);
-        dao.UpdateProduto(objeto);
-        return true;
+        return dao.UpdateProdutoBD(objeto);
     }
 
     public Produto carregaProduto(int id) {
@@ -122,7 +115,5 @@ public class Produto {
 
     public int maiorID() throws SQLException {
         return dao.maiorID();
-
     }
-
 }
