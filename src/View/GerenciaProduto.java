@@ -5,6 +5,8 @@ import Model.Produto;
 import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.SwingConstants;
 
 public class GerenciaProduto extends javax.swing.JFrame {
 
@@ -16,6 +18,26 @@ public class GerenciaProduto extends javax.swing.JFrame {
         initComponents();
         this.objProduto = new Produto(); // carrega objaluno de aluno
         this.controller = new ProdutoControllers();
+        
+    jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
+    jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
+    jTableProdutos.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
+    jTableProdutos.getTableHeader().setForeground(new java.awt.Color(40, 40, 40));
+    jTableProdutos.setSelectionBackground(new java.awt.Color(215, 236, 255));
+    jTableProdutos.setSelectionForeground(new java.awt.Color(30, 30, 30));
+    
+    
+    DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+    headerRenderer.setBackground(new java.awt.Color(169, 201, 255)); // azul pastel mais escuro
+    headerRenderer.setForeground(new java.awt.Color(40, 40, 40));    // texto escuro suave
+    headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);     // centralizar texto (opcional)
+ 
+// Aplica o renderer em cada coluna do cabeçalho
+    for (int i = 0; i < jTableProdutos.getColumnModel().getColumnCount(); i++) {
+    jTableProdutos.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+}
+
+
     }
 
     /**
@@ -28,7 +50,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableAlunos = new javax.swing.JTable();
+        jTableProdutos = new javax.swing.JTable(); ;
         b_cancelar = new javax.swing.JButton();
         b_alterar = new javax.swing.JButton();
         b_apagar = new javax.swing.JButton();
@@ -44,42 +66,49 @@ public class GerenciaProduto extends javax.swing.JFrame {
         setTitle("Gerenciamento de Alunos");
         setResizable(false);
 
-        jTableAlunos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastrada"
+                "ID", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastrada", "Data Atualização "
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTableAlunos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableAlunosMouseClicked(evt);
+                jTableProdutosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableAlunos);
-        if (jTableAlunos.getColumnModel().getColumnCount() > 0) {
-            jTableAlunos.getColumnModel().getColumn(0).setMinWidth(5);
-            jTableAlunos.getColumnModel().getColumn(1).setMinWidth(30);
-            jTableAlunos.getColumnModel().getColumn(2).setMinWidth(30);
-            jTableAlunos.getColumnModel().getColumn(3).setMinWidth(10);
-            jTableAlunos.getColumnModel().getColumn(4).setMinWidth(10);
-            jTableAlunos.getColumnModel().getColumn(5).setMinWidth(5);
+        jScrollPane1.setViewportView(jTableProdutos);
+        if (jTableProdutos.getColumnModel().getColumnCount() > 0) {
+            jTableProdutos.getColumnModel().getColumn(0).setMinWidth(5);
+            jTableProdutos.getColumnModel().getColumn(1).setMinWidth(30);
+            jTableProdutos.getColumnModel().getColumn(2).setMinWidth(30);
+            jTableProdutos.getColumnModel().getColumn(3).setMinWidth(10);
+            jTableProdutos.getColumnModel().getColumn(4).setMinWidth(10);
+            jTableProdutos.getColumnModel().getColumn(5).setMinWidth(5);
         }
 
         b_cancelar.setText("Cancelar");
@@ -206,18 +235,18 @@ public class GerenciaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_b_cancelarActionPerformed
 
     private void b_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_alterarActionPerformed
-        this.controller.ApagarProduto(jTableAlunos, c_nome, c_descricao, c_quantidade, c_preco);
+        this.controller.ApagarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
         
     }//GEN-LAST:event_b_alterarActionPerformed
 
-    private void jTableAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlunosMouseClicked
+    private void jTableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosMouseClicked
 
-        if (this.jTableAlunos.getSelectedRow() != -1) {
+        if (this.jTableProdutos.getSelectedRow() != -1) {
 
-            String nome = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 1).toString();
-            String descricao = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 2).toString();
-            String qntEstoque = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 3).toString();
-            String preco = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 4).toString();
+            String nome = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 1).toString();
+            String descricao = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 2).toString();
+            String qntEstoque = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 3).toString();
+            String preco = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 4).toString();
 
             this.c_nome.setText(nome);
             this.c_descricao.setText(descricao);
@@ -227,10 +256,10 @@ public class GerenciaProduto extends javax.swing.JFrame {
             
 
         }
-    }//GEN-LAST:event_jTableAlunosMouseClicked
+    }//GEN-LAST:event_jTableProdutosMouseClicked
 
     private void b_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_apagarActionPerformed
-        this.controller.ApagarProduto(jTableAlunos, c_nome, c_descricao, c_quantidade, c_preco);
+        this.controller.ApagarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
     }//GEN-LAST:event_b_apagarActionPerformed
 
     private void c_nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_nomeActionPerformed
@@ -300,6 +329,6 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableAlunos;
+    private javax.swing.JTable jTableProdutos;
     // End of variables declaration//GEN-END:variables
 }
