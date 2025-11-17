@@ -20,14 +20,23 @@ public class Produto {
 
     }
 
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco,
-            LocalDate data_cadastro) {
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
         this.quantidade_estoque = quantidade_estoque;
         this.preco = preco;
-        this.data_cadastro = data_cadastro;
+        this.data_cadastro = LocalDate.now();;
+        this.dao = new ProdutoDAO();
+    }
+    
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data) {
+        this.id_produto = id_produto;
+        this.nome_produto = nome_produto;
+        this.descricao_produto = descricao_produto;
+        this.quantidade_estoque = quantidade_estoque;
+        this.preco = preco;
+        this.data_cadastro = data;
         this.dao = new ProdutoDAO();
     }
 
@@ -90,30 +99,30 @@ public class Produto {
                 "\n---------------------------";
     }
 
-    public ArrayList<Produto> getListaProduto() {
-        return dao.getMinhaLista();
-    }
-
-    public boolean InsertProduto(String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data_cadastro) throws SQLException {
-        int id = this.maiorID() + 1;
-        Produto objeto = new Produto(id, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro);
-        return dao.InsertProdutoBD(objeto);
-    }
-
-    public boolean DeleteProduto(int id) {
-        return dao.DeleteProdutoBD(id);
-    }
-
-    public boolean UpdateProduto(int id, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data_cadastro) {
-        Produto objeto = new Produto(id, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro);
-        return dao.UpdateProdutoBD(objeto);
-    }
-
-    public Produto carregaProduto(int id) {
-        return dao.carregaProduto(id);
-    }
-
-    public int maiorID() throws SQLException {
-        return dao.maiorID();
-    }
+//    public ArrayList<Produto> getListaProduto() {
+//        return dao.getMinhaLista();
+//    }
+//
+//    public boolean InsertProduto(String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data_cadastro) throws SQLException {
+//        int id = this.maiorID() + 1;
+//        Produto objeto = new Produto(id, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro);
+//        return dao.InsertProdutoBD(objeto);
+//    }
+//
+//    public boolean DeleteProduto(int id) {
+//        return dao.DeleteProdutoBD(id);
+//    }
+//
+//    public boolean UpdateProduto(int id, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data_cadastro) {
+//        Produto objeto = new Produto(id, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro);
+//        return dao.UpdateProdutoBD(objeto);
+//    }
+//
+//    public Produto carregaProduto(int id) {
+//        return dao.carregaProduto(id);
+//    }
+//
+//    public int maiorID() throws SQLException {
+//        return dao.maiorID();
+//    }
 }
