@@ -103,7 +103,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //        GerenciaAluno objeto = new GerenciaAluno();
 
         objeto.setVisible(true);
-        objeto.carregaTabela();
+        //objeto.carregaTabela();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**

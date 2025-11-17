@@ -1,6 +1,6 @@
 package View;
 
-import Model.Aluno;
+import Model.Produto;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,11 +8,11 @@ import javax.swing.JOptionPane;
 
 public class CadastroProduto extends javax.swing.JFrame {
 
-    private Aluno objaluno; // cria o v�nculo com o Aluno.java
+    private Produto objproduto; // cria o v�nculo com o Aluno.java
 
     public CadastroProduto() {
         initComponents();
-        this.objaluno = new Aluno(); // carrega objeto vazio de aluno
+        this.objproduto = new Produto(); // carrega objeto vazio de aluno
     }
 
     /**
@@ -161,61 +161,6 @@ public class CadastroProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_c_precoActionPerformed
 
     private void b_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cadastrarActionPerformed
-
-        try {
-            // recebendo e validando dados da interface gr�fica.
-            String nome = "";
-            int idade = 0;
-            String curso = "";
-            int fase = 0;
-
-            if (this.c_nome_produto.getText().length() < 2) {
-                throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
-            } else {
-                nome = this.c_nome_produto.getText();
-            }
-
-            if (this.c_descricao.getText().length() <= 0) {
-                throw new Mensagens("Descrição deve conter ao menos 2 caracteres.");
-            } else {
-                descricao = this.c_descricao.getText();
-               // idade = Integer.parseInt(this.c_descricao.getText());
-            }
-            
-            if (this.c_quantidade.getText().length() < 2) {
-                throw new Mensagens("Curso deve conter ao menos 2 caracteres.");
-            } else {
-                curso = this.c_quantidade.getText();
-            }
-
-            if (this.c_preco.getText().length() <= 0) {
-                throw new Mensagens("Fase deve ser n�mero e maior que zero.");
-            } else {
-                fase = Integer.parseInt(this.c_preco.getText());
-            }
-
-            // envia os dados para o Controlador cadastrar
-            if (this.objaluno.InsertAlunoBD(curso, fase, nome, idade)) {
-                JOptionPane.showMessageDialog(rootPane, "Produto Cadastrado com Sucesso!");
-
-                // limpa campos da interface
-                this.c_nome_produto.setText("");
-                this.c_descricao.setText("");
-                this.c_quantidade.setText("");
-                this.c_preco.setText("");
-
-            }
-
-            System.out.println(this.objaluno.getMinhaLista().toString());
-
-        } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um n�mero.");
-        } catch (SQLException ex) {
-            Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
 
     }//GEN-LAST:event_b_cadastrarActionPerformed
 
