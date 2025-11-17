@@ -1,5 +1,6 @@
 package View;
 
+import Controller.ProdutoControllers;
 import Model.Produto;
 import java.util.*;
 import javax.swing.JOptionPane;
@@ -8,11 +9,13 @@ import javax.swing.table.DefaultTableModel;
 public class GerenciaProduto extends javax.swing.JFrame {
 
     private Produto objProduto; // cria o v�nculo com o objaluno
+    private ProdutoControllers controller;
+
 
     public GerenciaProduto() {
         initComponents();
         this.objProduto = new Produto(); // carrega objaluno de aluno
-        
+        this.controller = new ProdutoControllers();
     }
 
     /**
@@ -203,7 +206,8 @@ public class GerenciaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_b_cancelarActionPerformed
 
     private void b_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_alterarActionPerformed
-
+        this.controller.ApagarProduto(jTableAlunos, c_nome, c_descricao, c_quantidade, c_preco);
+        
     }//GEN-LAST:event_b_alterarActionPerformed
 
     private void jTableAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlunosMouseClicked
@@ -211,18 +215,22 @@ public class GerenciaProduto extends javax.swing.JFrame {
         if (this.jTableAlunos.getSelectedRow() != -1) {
 
             String nome = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 1).toString();
-            String idade = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 2).toString();
-            String curso = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 3).toString();
-            String fase = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 4).toString();
+            String descricao = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 2).toString();
+            String qntEstoque = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 3).toString();
+            String preco = this.jTableAlunos.getValueAt(this.jTableAlunos.getSelectedRow(), 4).toString();
 
             this.c_nome.setText(nome);
+            this.c_descricao.setText(descricao);
+            this.c_quantidade.setText(qntEstoque);
+            this.c_preco.setText(preco);
+            
             
 
         }
     }//GEN-LAST:event_jTableAlunosMouseClicked
 
     private void b_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_apagarActionPerformed
-        
+        this.controller.ApagarProduto(jTableAlunos, c_nome, c_descricao, c_quantidade, c_preco);
     }//GEN-LAST:event_b_apagarActionPerformed
 
     private void c_nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_nomeActionPerformed

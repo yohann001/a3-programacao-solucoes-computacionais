@@ -5,14 +5,17 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import Controller.ProdutoControllers;
 
 public class CadastroProduto extends javax.swing.JFrame {
 
     private Produto objproduto; // cria o v�nculo com o Aluno.java
+    private ProdutoControllers controller;
 
     public CadastroProduto() {
         initComponents();
         this.objproduto = new Produto(); // carrega objeto vazio de aluno
+        this.controller = new ProdutoControllers();
     }
 
     /**
@@ -161,7 +164,12 @@ public class CadastroProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_c_precoActionPerformed
 
     private void b_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cadastrarActionPerformed
-
+        String nome = c_nome_produto.getText();
+        String descricao = c_descricao.getText();
+        int qntEstoque = Integer.parseInt(c_quantidade.getText());
+        double preco = Double.parseDouble(c_preco.getText());
+        
+        this.controller.CadastrarProduto(c_nome_produto, c_descricao, c_quantidade, c_preco);
     }//GEN-LAST:event_b_cadastrarActionPerformed
 
     private void b_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cancelarActionPerformed
