@@ -48,7 +48,7 @@ public class ProdutoControllers {
                
             }
             
-            if (c_quantidade.getText().length() <= 0) {
+            if (c_quantidade.getText().length() < 2) {
                 throw new Mensagens("Quantidade deve ser maior ou igual a 0.");
             } else {
                 qntEstoque = Integer.parseInt(c_quantidade.getText());
@@ -59,7 +59,7 @@ public class ProdutoControllers {
             } else {
                 preco = Double.parseDouble(c_preco.getText());
             }
-            int id = this.dao.maiorID()+ 1 ;
+            int id = this.dao.maiorID();
             
             Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
             // envia os dados para o Controlador cadastrar
