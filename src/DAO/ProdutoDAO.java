@@ -43,11 +43,16 @@ public class ProdutoDAO {
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
 
-            String server = "localhost";
-            String database = "estoque_db";
-            String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
-            String user = "root";
-            String password = "senhabd123";
+            String server = "bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com";
+            String database = "bwgyactsuuve5cowvycs"; 
+            String url = "mysql://ublbzt0cknm4phvd:GJdQI3oichlWhHepNLhT@bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com:3306/bwgyactsuuve5cowvycs";
+            String user = "ublbzt0cknm4phvd";
+            String password = "GJdQI3oichlWhHepNLhT"; 
+            
+            
+            
+            
+            
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -84,6 +89,7 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
+                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
 
                 Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
 
