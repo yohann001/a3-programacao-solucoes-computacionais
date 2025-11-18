@@ -12,6 +12,7 @@ public class Produto {
     private int quantidade_estoque;
     private double preco;
     private LocalDate data_cadastro;
+    private LocalDate data_atualizacao;
 
     private final ProdutoDAO dao;
 
@@ -30,13 +31,14 @@ public class Produto {
         this.dao = new ProdutoDAO();
     }
     
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data) {
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate dataAtualizacao) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
         this.quantidade_estoque = quantidade_estoque;
         this.preco = preco;
         this.data_cadastro = data;
+        this.data_atualizacao = dataAtualizacao;
         this.dao = new ProdutoDAO();
     }
 
@@ -87,6 +89,14 @@ public class Produto {
     public void setData_cadastro(LocalDate data_cadastro) {
         this.data_cadastro = data_cadastro;
     }
+    
+    public LocalDate getData_Atualizacao() {
+        return data_atualizacao;
+    }
+
+    public void setData_Atualizacao(LocalDate data_atualizacao) {
+        this.data_atualizacao = data_cadastro;
+    }
 
     @Override
     public String toString() {
@@ -96,6 +106,7 @@ public class Produto {
                "\n Quantidade em Estoque: " + this.getQuantidade_estoque() +
                "\n Preço: " + this.getPreco() +
                "\n Data de Cadastro: " + this.getData_cadastro() +
+                "\n Data de Atualização: " + this.getData_Atualizacao() +
                 "\n---------------------------";
     }
 
