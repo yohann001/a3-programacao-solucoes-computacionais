@@ -4,20 +4,32 @@ import Controller.ProdutoControllers;
 import Model.Produto;
 import java.util.*;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.SwingConstants;
+import DAO.ProdutoDAO;
 
 public class GerenciaProduto extends javax.swing.JFrame {
 
     private Produto objProduto; // cria o v�nculo com o objaluno
     private ProdutoControllers controller;
+    private ProdutoDAO dao;
 
 
     public GerenciaProduto() {
         initComponents();
         this.objProduto = new Produto(); // carrega objaluno de aluno
         this.controller = new ProdutoControllers();
+        this.dao = new ProdutoDAO();
+        controller.carregaTabela(jTableProdutos);
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowActivated(java.awt.event.WindowEvent e) {
+                 controller.carregaTabela(jTableProdutos);
+            }
+        });
         
     jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
     jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
@@ -235,7 +247,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_b_cancelarActionPerformed
 
     private void b_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_alterarActionPerformed
-        this.controller.ApagarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
+        this.controller.alterarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
         
     }//GEN-LAST:event_b_alterarActionPerformed
 
@@ -262,6 +274,8 @@ public class GerenciaProduto extends javax.swing.JFrame {
         this.controller.ApagarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
     }//GEN-LAST:event_b_apagarActionPerformed
 
+ 
+    
     private void c_nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_nomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_c_nomeActionPerformed
@@ -306,10 +320,11 @@ public class GerenciaProduto extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GerenciaProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
                 new GerenciaProduto().setVisible(true);
             }
         });

@@ -59,7 +59,7 @@ public class ProdutoControllers {
             } else {
                 preco = Double.parseDouble(c_preco.getText());
             }
-            int id = this.dao.maiorID();
+            int id = this.dao.maiorID()+1;
             
             Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
             // envia os dados para o Controlador cadastrar
@@ -86,9 +86,9 @@ public class ProdutoControllers {
     }
     
     @SuppressWarnings("unchecked")
-    public void carregaTabela(JTable jTableAlunos) {
+    public void carregaTabela(JTable jTableProdutos) {
 
-        DefaultTableModel modelo = (DefaultTableModel) jTableAlunos.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) jTableProdutos.getModel();
         modelo.setNumRows(0);
 
         ArrayList<Produto> minhalista = new ArrayList<>();

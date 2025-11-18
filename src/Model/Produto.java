@@ -30,15 +30,15 @@ public class Produto {
         this.data_cadastro = LocalDate.now();;
         this.dao = new ProdutoDAO();
     }
-    
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate dataAtualizacao) {
+    //tirei o datatAtulizacao dos parametros, qnd tiver a coluna na tabela ai sim add como parametro
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
         this.quantidade_estoque = quantidade_estoque;
         this.preco = preco;
         this.data_cadastro = data;
-        this.data_atualizacao = dataAtualizacao;
+//        this.data_atualizacao = dataAtualizacao;
         this.dao = new ProdutoDAO();
     }
 
