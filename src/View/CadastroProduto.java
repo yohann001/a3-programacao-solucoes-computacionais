@@ -16,6 +16,7 @@ public class CadastroProduto extends javax.swing.JFrame {
         initComponents();
         this.objproduto = new Produto(); // carrega objeto vazio de aluno
         this.controller = new ProdutoControllers();
+        
     }
 
     /**

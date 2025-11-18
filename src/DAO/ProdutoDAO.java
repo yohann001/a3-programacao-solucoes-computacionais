@@ -43,11 +43,11 @@ public class ProdutoDAO {
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
 
-            String server = "localhost";
-            String database = "estoque_db";
-            String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
-            String user = "root";
-            String password = "senhabd123";
+            String server = "bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com";
+            String database = "bwgyactsuuve5cowvycs";
+            String url = "jdbc:mysql://" + server + ":3306/" + database;
+            String user = "ublbzt0cknm4phvd";
+            String password = "GJdQI3oichlWhHepNLhT";
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -84,9 +84,9 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
-                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
-
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao);
+//                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
+                //tirei isso pq ele buscava uma coluna q nao existia e por isso nao atualizava a tabela, qnd tiver pode add dnv
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
 
                 MinhaLista.add(objeto);
             }
@@ -124,21 +124,21 @@ public class ProdutoDAO {
     }
 
     public boolean DeleteProdutoBD(int id) {
+        String sql = "DELETE FROM tb_produtos WHERE id_produto = ?";
         try {
-            Statement stmt = this.getConexao().createStatement();
-            stmt.executeUpdate("DELETE FROM tb_produtos WHERE id_produto = " + id);
+            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.execute();
             stmt.close();
-
+            return true;
         } catch (SQLException erro) {
+            throw new RuntimeException(erro);
         }
-
-        return true;
     }
 
     public boolean UpdateProdutoBD(Produto objeto) {
-
         String sql = "UPDATE tb_produtos set nome_produto = ? ,descricao_produto = ? ,quantidade_estoque = ? ,preco = ?, data_cadastro = ? WHERE id_produto = ?";
-        
+
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
 
@@ -161,24 +161,25 @@ public class ProdutoDAO {
     }
 
     public Produto carregaProduto(int id) {
-
         Produto objeto = new Produto();
         objeto.setId_produto(id);
 
         try {
             Statement stmt = this.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_produtos WHERE id_produto = " + id);
-            res.next();
-
-            objeto.setNome_produto(res.getString("nome_produto"));
-            objeto.setDescricao_produto(res.getString("descricao_produto"));
-            objeto.setQuantidade_estoque(res.getInt("quantidade_estoque"));
-            objeto.setPreco(res.getDouble("preco"));
-            objeto.setData_cadastro(res.getDate("data_cadastro").toLocalDate());
-
+            
+            if (res.next()) {
+                objeto.setNome_produto(res.getString("nome_produto"));
+                objeto.setDescricao_produto(res.getString("descricao_produto"));
+                objeto.setQuantidade_estoque(res.getInt("quantidade_estoque"));
+                objeto.setPreco(res.getDouble("preco"));
+                objeto.setData_cadastro(res.getDate("data_cadastro").toLocalDate());
+            }
+            
             stmt.close();
 
         } catch (SQLException erro) {
+            System.out.println("Erro ao carregar produto: " + erro.getMessage());
         }
         return objeto;
     }
