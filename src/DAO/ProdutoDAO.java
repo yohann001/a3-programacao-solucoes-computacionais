@@ -45,7 +45,7 @@ public class ProdutoDAO {
 
             String server = "bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com";
             String database = "bwgyactsuuve5cowvycs"; 
-            String url = "mysql://ublbzt0cknm4phvd:GJdQI3oichlWhHepNLhT@bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com:3306/bwgyactsuuve5cowvycs";
+            String url = "jdbc:mysql://bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com:3306/bwgyactsuuve5cowvycs?useTimezone=true&serverTimezone=UTC";
             String user = "ublbzt0cknm4phvd";
             String password = "GJdQI3oichlWhHepNLhT"; 
             
@@ -89,9 +89,9 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
-                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
-
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao);
+//                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
+                //tirei isso pq ele buscava uma coluna q nao existia e por isso nao atualizava a tabela, qnd tiver pode add dnv
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
 
                 MinhaLista.add(objeto);
             }
