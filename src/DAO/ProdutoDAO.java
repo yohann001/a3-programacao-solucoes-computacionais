@@ -84,8 +84,9 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
+                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
 
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao);
 
                 MinhaLista.add(objeto);
             }
