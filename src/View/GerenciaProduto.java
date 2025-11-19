@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.SwingConstants;
 import DAO.ProdutoDAO;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
 
 public class GerenciaProduto extends javax.swing.JFrame {
 
@@ -16,9 +18,34 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private ProdutoControllers controller;
     private ProdutoDAO dao;
 
+private void filtrarTabela() {
+    String texto = txt_busca.getText().toLowerCase();
+    DefaultTableModel model = (DefaultTableModel) jTableProdutos.getModel();
 
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    jTableProdutos.setRowSorter(sorter);
+
+    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+}
+    
     public GerenciaProduto() {
         initComponents();
+        txt_busca.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        @Override
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            filtrarTabela();
+        }
+
+        @Override
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            filtrarTabela();
+        }
+
+        @Override
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            filtrarTabela();
+        }
+    });
         this.objProduto = new Produto(); // carrega objaluno de aluno
         this.controller = new ProdutoControllers();
         this.dao = new ProdutoDAO();
@@ -74,8 +101,10 @@ public class GerenciaProduto extends javax.swing.JFrame {
         c_quantidade = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         c_preco = new javax.swing.JTextField();
+        txt_busca = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
-        setTitle("Gerenciamento de Alunos");
+        setTitle("Gerenciamento de Produto");
         setResizable(false);
 
         jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
@@ -176,6 +205,14 @@ public class GerenciaProduto extends javax.swing.JFrame {
             }
         });
 
+        txt_busca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_buscaActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Pesquisa:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,12 +244,21 @@ public class GerenciaProduto extends javax.swing.JFrame {
                         .addGap(163, 163, 163))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
@@ -235,7 +281,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
                     .addComponent(b_cancelar)
                     .addComponent(b_apagar)
                     .addComponent(b_alterar))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -292,6 +338,10 @@ public class GerenciaProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_c_precoActionPerformed
 
+    private void txt_buscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_buscaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -343,7 +393,9 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableProdutos;
+    private javax.swing.JTextField txt_busca;
     // End of variables declaration//GEN-END:variables
 }
