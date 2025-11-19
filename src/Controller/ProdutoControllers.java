@@ -118,7 +118,7 @@ public class ProdutoControllers {
             }
 
             // retorna 0 -> primeiro bot�o | 1 -> segundo bot�o | 2 -> terceiro bot�o
-            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja APAGAR este Aluno ?");
+            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja APAGAR este produto ?");
 
             if (resposta_usuario == 0) {// clicou em SIM
 
@@ -130,7 +130,7 @@ public class ProdutoControllers {
                     c_descricao.setText("");
                     c_quantidade.setText("");
                     c_preco.setText("");
-                    JOptionPane.showMessageDialog(null, "Aluno Apagado com Sucesso!");
+                    JOptionPane.showMessageDialog(null, "produto Apagado com Sucesso!");
 
                 }
 
@@ -183,7 +183,7 @@ public class ProdutoControllers {
             }
 
             if (jTableProdutos.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione um Aluno para Alterar");
+                throw new Mensagens("Primeiro Selecione um produto para Alterar");
             } else {
                 id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
             }
@@ -197,7 +197,7 @@ public class ProdutoControllers {
                 c_descricao.setText("");
                 c_quantidade.setText("");
                 c_preco.setText("");
-                JOptionPane.showMessageDialog(null, "Aluno Alterado com Sucesso!");
+                JOptionPane.showMessageDialog(null, "produto Alterado com Sucesso!");
 
             }
             System.out.println(objProduto.toString());
