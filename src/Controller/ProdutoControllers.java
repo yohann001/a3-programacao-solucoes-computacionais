@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 
+
 public class ProdutoControllers {
 
     private ProdutoDAO dao;
@@ -68,7 +69,6 @@ public class ProdutoControllers {
 
             }
 
-            System.out.println(objProduto.toString());
 
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
@@ -101,14 +101,13 @@ public class ProdutoControllers {
     }
 
     public void ApagarProduto(JTable jTableAlunos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
-
         try {
             // validando dados da interface gr�fica.
             int id = 0;
-            if (jTableAlunos.getSelectedRow() == -1) {
+            if (jTableProdutos.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro Selecione um Produto para APAGAR");
             } else {
-                id = Integer.parseInt(jTableAlunos.getValueAt(jTableAlunos.getSelectedRow(), 0).toString());
+                id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
             }
 
             // retorna 0 -> primeiro bot�o | 1 -> segundo bot�o | 2 -> terceiro bot�o
@@ -125,9 +124,7 @@ public class ProdutoControllers {
                     c_quantidade.setText("");
                     c_preco.setText("");
                     JOptionPane.showMessageDialog(null, "Aluno Apagado com Sucesso!");
-
                 }
-
             }
 
             System.out.println(this.dao.getMinhaLista().toString());
@@ -136,12 +133,9 @@ public class ProdutoControllers {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } finally {
             // atualiza a tabela.
-            this.carregaTabela(jTableAlunos);
+            this.carregaTabela(jTableProdutos);
         }
-
     }
-
-    public void alterarProduto(JTable jTableAlunos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
         try {
             // recebendo e validando dados da interface gr�fica.
             String nome = "";
@@ -175,10 +169,10 @@ public class ProdutoControllers {
                 preco = Double.parseDouble(c_preco.getText());
             }
 
-            if (jTableAlunos.getSelectedRow() == -1) {
+            if (jTableProdutos.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro Selecione um Aluno para Alterar");
             } else {
-                id = Integer.parseInt(jTableAlunos.getValueAt(jTableAlunos.getSelectedRow(), 0).toString());
+                id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
             }
 
             Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
@@ -199,7 +193,7 @@ public class ProdutoControllers {
         } catch (NumberFormatException erro2) {
             JOptionPane.showMessageDialog(null, "Informe um número.");
         } finally {
-            this.carregaTabela(jTableAlunos);
+            this.carregaTabela(jTableProdutos);
         }
     }
 
