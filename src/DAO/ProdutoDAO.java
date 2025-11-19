@@ -186,6 +186,7 @@ public class ProdutoDAO {
 
     //ADICIONAIS
     public ArrayList<Produto> getMinhaListaOrdenadaPorPreco() {
+        String sql = "SELECT * FROM tb_alunos ORDER BY preco ASC";
         MinhaLista.clear();
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
