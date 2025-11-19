@@ -16,39 +16,36 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private ProdutoControllers controller;
     private ProdutoDAO dao;
 
-
     public GerenciaProduto() {
         initComponents();
         this.objProduto = new Produto(); // carrega objaluno de aluno
         this.controller = new ProdutoControllers();
         this.dao = new ProdutoDAO();
         controller.carregaTabela(jTableProdutos);
-        
+
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowActivated(java.awt.event.WindowEvent e) {
-                 controller.carregaTabela(jTableProdutos);
+                controller.carregaTabela(jTableProdutos);
             }
         });
-        
-    jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
-    jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
-    jTableProdutos.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
-    jTableProdutos.getTableHeader().setForeground(new java.awt.Color(40, 40, 40));
-    jTableProdutos.setSelectionBackground(new java.awt.Color(215, 236, 255));
-    jTableProdutos.setSelectionForeground(new java.awt.Color(30, 30, 30));
-    
-    
-    DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
-    headerRenderer.setBackground(new java.awt.Color(169, 201, 255)); // azul pastel mais escuro
-    headerRenderer.setForeground(new java.awt.Color(40, 40, 40));    // texto escuro suave
-    headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);     // centralizar texto (opcional)
- 
-// Aplica o renderer em cada coluna do cabeçalho
-    for (int i = 0; i < jTableProdutos.getColumnModel().getColumnCount(); i++) {
-    jTableProdutos.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-}
 
+        jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
+        jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
+        jTableProdutos.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
+        jTableProdutos.getTableHeader().setForeground(new java.awt.Color(40, 40, 40));
+        jTableProdutos.setSelectionBackground(new java.awt.Color(215, 236, 255));
+        jTableProdutos.setSelectionForeground(new java.awt.Color(30, 30, 30));
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(new java.awt.Color(169, 201, 255)); // azul pastel mais escuro
+        headerRenderer.setForeground(new java.awt.Color(40, 40, 40));    // texto escuro suave
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);     // centralizar texto (opcional)
+
+// Aplica o renderer em cada coluna do cabeçalho
+        for (int i = 0; i < jTableProdutos.getColumnModel().getColumnCount(); i++) {
+            jTableProdutos.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
 
     }
 
@@ -74,6 +71,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
         c_quantidade = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         c_preco = new javax.swing.JTextField();
+        b_ordenar = new javax.swing.JButton();
 
         setTitle("Gerenciamento de Alunos");
         setResizable(false);
@@ -176,6 +174,13 @@ public class GerenciaProduto extends javax.swing.JFrame {
             }
         });
 
+        b_ordenar.setText("Ordenar por Preço");
+        b_ordenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_ordenarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,13 +213,19 @@ public class GerenciaProduto extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
                         .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(b_ordenar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(b_ordenar)
+                .addGap(1, 1, 1)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(c_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,7 +259,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
 
     private void b_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_alterarActionPerformed
         this.controller.alterarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
-        
+
     }//GEN-LAST:event_b_alterarActionPerformed
 
     private void jTableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosMouseClicked
@@ -264,8 +275,6 @@ public class GerenciaProduto extends javax.swing.JFrame {
             this.c_descricao.setText(descricao);
             this.c_quantidade.setText(qntEstoque);
             this.c_preco.setText(preco);
-            
-            
 
         }
     }//GEN-LAST:event_jTableProdutosMouseClicked
@@ -274,8 +283,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
         this.controller.ApagarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
     }//GEN-LAST:event_b_apagarActionPerformed
 
- 
-    
+
     private void c_nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_nomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_c_nomeActionPerformed
@@ -292,11 +300,13 @@ public class GerenciaProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_c_precoActionPerformed
 
+    private void b_ordenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ordenarActionPerformed
+        controller.carregaTabelaOrdenada(jTableProdutos);        // TODO add your handling code here:
+    }//GEN-LAST:event_b_ordenarActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -320,21 +330,22 @@ public class GerenciaProduto extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GerenciaProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
                 new GerenciaProduto().setVisible(true);
             }
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_alterar;
     private javax.swing.JButton b_apagar;
     private javax.swing.JButton b_cancelar;
+    private javax.swing.JButton b_ordenar;
     private javax.swing.JTextField c_descricao;
     private javax.swing.JTextField c_nome;
     private javax.swing.JTextField c_preco;

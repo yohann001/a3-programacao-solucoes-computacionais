@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controller;
+
 import DAO.ProdutoDAO;
 import Model.Produto;
 import View.CadastroProduto;
@@ -15,19 +12,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
-/**
- *
- * @author ps671
- */
+
+
 public class ProdutoControllers {
-    
+
     private ProdutoDAO dao;
-    
-    public ProdutoControllers(){
+
+    public ProdutoControllers() {
         this.dao = new ProdutoDAO();
     }
-    
-    public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco){
+
+    public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
         try {
             // recebendo e validando dados da interface gr�fica.
             String nome = "";
@@ -45,9 +40,9 @@ public class ProdutoControllers {
                 throw new Mensagens("Descrição deve conter ao menos 2 caracteres.");
             } else {
                 descricao = c_descricao.getText();
-               
+
             }
-            
+
             if (c_quantidade.getText().length() < 2) {
                 throw new Mensagens("Quantidade deve ser maior ou igual a 0.");
             } else {
@@ -59,8 +54,8 @@ public class ProdutoControllers {
             } else {
                 preco = Double.parseDouble(c_preco.getText());
             }
-            int id = this.dao.maiorID()+1;
-            
+            int id = this.dao.maiorID() + 1;
+
             Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
             // envia os dados para o Controlador cadastrar
             if (this.dao.InsertProdutoBD(objProduto)) {
@@ -83,7 +78,7 @@ public class ProdutoControllers {
             Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public void carregaTabela(JTable jTableProdutos) {
 
@@ -104,10 +99,8 @@ public class ProdutoControllers {
             });
         }
     }
-    
-    
-    public void ApagarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco){
-        
+
+    public void ApagarProduto(JTable jTableAlunos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
         try {
             // validando dados da interface gr�fica.
             int id = 0;
@@ -131,9 +124,7 @@ public class ProdutoControllers {
                     c_quantidade.setText("");
                     c_preco.setText("");
                     JOptionPane.showMessageDialog(null, "Aluno Apagado com Sucesso!");
-
                 }
-
             }
 
             System.out.println(this.dao.getMinhaLista().toString());
@@ -144,11 +135,7 @@ public class ProdutoControllers {
             // atualiza a tabela.
             this.carregaTabela(jTableProdutos);
         }
-
-
     }
-    
-    public void alterarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco){
         try {
             // recebendo e validando dados da interface gr�fica.
             String nome = "";
@@ -167,9 +154,9 @@ public class ProdutoControllers {
                 throw new Mensagens("Descrição deve conter ao menos 2 caracteres.");
             } else {
                 descricao = c_descricao.getText();
-               
+
             }
-            
+
             if (c_quantidade.getText().length() < 2) {
                 throw new Mensagens("Quantidade deve ser maior ou igual a 0.");
             } else {
@@ -188,7 +175,7 @@ public class ProdutoControllers {
                 id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
             }
 
-            Produto objProduto = new Produto(id,nome,descricao,qntEstoque,preco);
+            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
             // envia os dados para o Aluno processar
             if (this.dao.UpdateProdutoBD(objProduto)) {
 
@@ -209,6 +196,22 @@ public class ProdutoControllers {
             this.carregaTabela(jTableProdutos);
         }
     }
+
+    public void carregaTabelaOrdenada(JTable jTableProdutos) {
+        DefaultTableModel modelo = (DefaultTableModel) jTableProdutos.getModel();
+        modelo.setNumRows(0); 
+
+        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco();
+
+        for (Produto a : listaOrdenada) {
+            modelo.addRow(new Object[]{
+                a.getId_produto(),
+                a.getNome_produto(),
+                a.getDescricao_produto(),
+                a.getQuantidade_estoque(),
+                a.getPreco(),
+                a.getData_cadastro()
+            });
+        }
+    }
 }
-
-

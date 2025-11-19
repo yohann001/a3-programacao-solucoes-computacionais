@@ -167,7 +167,7 @@ public class ProdutoDAO {
         try {
             Statement stmt = this.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_produtos WHERE id_produto = " + id);
-            
+
             if (res.next()) {
                 objeto.setNome_produto(res.getString("nome_produto"));
                 objeto.setDescricao_produto(res.getString("descricao_produto"));
@@ -175,7 +175,7 @@ public class ProdutoDAO {
                 objeto.setPreco(res.getDouble("preco"));
                 objeto.setData_cadastro(res.getDate("data_cadastro").toLocalDate());
             }
-            
+
             stmt.close();
 
         } catch (SQLException erro) {
@@ -183,4 +183,31 @@ public class ProdutoDAO {
         }
         return objeto;
     }
+
+    //ADICIONAIS
+    public ArrayList<Produto> getMinhaListaOrdenadaPorPreco() {
+        MinhaLista.clear();
+        try {
+            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+            ResultSet res = stmt.executeQuery();
+            
+            while (res.next()) {
+                int id = res.getInt("id_produto");
+                String nome = res.getString("nome_produto");
+                String descricao = res.getString("descricao_produto");
+                int qtd = res.getInt("quantidade_estoque");
+                double preco = res.getDouble("preco");
+                java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
+
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
+                MinhaLista.add(objeto);
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println("Erro ao ordenar: " + ex.getMessage());
+        }
+        return MinhaLista;
+    }
+
+
 }
