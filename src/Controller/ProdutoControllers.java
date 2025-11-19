@@ -78,6 +78,69 @@ public class ProdutoControllers {
             Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void alterarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco){
+        try {
+            // recebendo e validando dados da interface gr�fica.
+            String nome = "";
+            String descricao = "";
+            int qntEstoque = 0;
+            double preco = 0;
+            int id = 0;
+
+            if (c_nome_produto.getText().length() < 2) {
+                throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
+            } else {
+                nome = c_nome_produto.getText();
+            }
+
+            if (c_descricao.getText().length() <= 0) {
+                throw new Mensagens("Descrição deve conter ao menos 2 caracteres.");
+            } else {
+                descricao = c_descricao.getText();
+
+            }
+
+            if (c_quantidade.getText().length() <= 0) {
+                throw new Mensagens("Quantidade deve ser maior ou igual a 0.");
+            } else {
+                qntEstoque = Integer.parseInt(c_quantidade.getText());
+            }
+
+            if (c_preco.getText().length() <= 0) {
+                throw new Mensagens("Preço deve ser maior ou igual a 0.");
+            } else {
+                preco = Double.parseDouble(c_preco.getText());
+            }
+
+            if (jTableProdutos.getSelectedRow() == -1) {
+                throw new Mensagens("Primeiro Selecione um Produto para Alterar");
+            } else {
+                id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
+            }
+
+            Produto objProduto = new Produto(id,nome,descricao,qntEstoque,preco);
+            // envia os dados para o Aluno processar
+            if (this.dao.UpdateProdutoBD(objProduto)) {
+
+                // limpa os campos
+                c_nome_produto.setText("");
+                c_descricao.setText("");
+                c_quantidade.setText("");
+                c_preco.setText("");
+                JOptionPane.showMessageDialog(null, "Produto Alterado com Sucesso!");
+
+            }
+            System.out.println(objProduto.toString());
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (NumberFormatException erro2) {
+            JOptionPane.showMessageDialog(null, "Informe um número.");
+        } finally {
+            this.carregaTabela(jTableProdutos);
+        }
+    
+    }
 
     @SuppressWarnings("unchecked")
     public void carregaTabela(JTable jTableProdutos) {
@@ -100,7 +163,7 @@ public class ProdutoControllers {
         }
     }
 
-    public void ApagarProduto(JTable jTableAlunos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
+    public void ApagarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
         try {
             // validando dados da interface gr�fica.
             int id = 0;
@@ -111,7 +174,7 @@ public class ProdutoControllers {
             }
 
             // retorna 0 -> primeiro bot�o | 1 -> segundo bot�o | 2 -> terceiro bot�o
-            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja APAGAR este Aluno ?");
+            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja APAGAR este Produto ?");
 
             if (resposta_usuario == 0) {// clicou em SIM
 
@@ -123,7 +186,7 @@ public class ProdutoControllers {
                     c_descricao.setText("");
                     c_quantidade.setText("");
                     c_preco.setText("");
-                    JOptionPane.showMessageDialog(null, "Aluno Apagado com Sucesso!");
+                    JOptionPane.showMessageDialog(null, "Produto Apagado com Sucesso!");
                 }
             }
 
@@ -136,66 +199,7 @@ public class ProdutoControllers {
             this.carregaTabela(jTableProdutos);
         }
     }
-        try {
-            // recebendo e validando dados da interface gr�fica.
-            String nome = "";
-            String descricao = "";
-            int qntEstoque = 0;
-            double preco = 0;
-            int id = 0;
-
-            if (c_nome_produto.getText().length() < 2) {
-                throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
-            } else {
-                nome = c_nome_produto.getText();
-            }
-
-            if (c_descricao.getText().length() <= 0) {
-                throw new Mensagens("Descrição deve conter ao menos 2 caracteres.");
-            } else {
-                descricao = c_descricao.getText();
-
-            }
-
-            if (c_quantidade.getText().length() < 2) {
-                throw new Mensagens("Quantidade deve ser maior ou igual a 0.");
-            } else {
-                qntEstoque = Integer.parseInt(c_quantidade.getText());
-            }
-
-            if (c_preco.getText().length() <= 0) {
-                throw new Mensagens("Preço deve ser maior ou igual a 0.");
-            } else {
-                preco = Double.parseDouble(c_preco.getText());
-            }
-
-            if (jTableProdutos.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione um Aluno para Alterar");
-            } else {
-                id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
-            }
-
-            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
-            // envia os dados para o Aluno processar
-            if (this.dao.UpdateProdutoBD(objProduto)) {
-
-                // limpa os campos
-                c_nome_produto.setText("");
-                c_descricao.setText("");
-                c_quantidade.setText("");
-                c_preco.setText("");
-                JOptionPane.showMessageDialog(null, "Aluno Alterado com Sucesso!");
-
-            }
-            System.out.println(objProduto.toString());
-        } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um número.");
-        } finally {
-            this.carregaTabela(jTableProdutos);
-        }
-    }
+    
 
     public void carregaTabelaOrdenada(JTable jTableProdutos) {
         DefaultTableModel modelo = (DefaultTableModel) jTableProdutos.getModel();
