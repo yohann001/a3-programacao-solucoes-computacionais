@@ -74,7 +74,6 @@ public class ProdutoControllers {
 
             }
 
-            System.out.println(objProduto.toString());
 
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
