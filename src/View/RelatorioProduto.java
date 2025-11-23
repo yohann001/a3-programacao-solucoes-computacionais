@@ -95,6 +95,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableRelatorio = new javax.swing.JTable();
         label1 = new java.awt.Label();
+        JButtonCancelar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,6 +151,13 @@ public class RelatorioProduto extends javax.swing.JFrame {
         label1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         label1.setText("Relatório de Produtos");
 
+        JButtonCancelar.setText("Cancelar");
+        JButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JButtonCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,6 +167,8 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
+                        .addGap(121, 121, 121)
+                        .addComponent(JButtonCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(31, 31, 31))
@@ -190,7 +200,8 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(JButtonCancelar))
                 .addGap(24, 24, 24))
         );
 
@@ -202,8 +213,52 @@ public class RelatorioProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_busca_relatorioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTableRelatorio.getModel();
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle("Salvar Relatório como CSV");
+        fileChooser.setSelectedFile(new java.io.File("relatorio_produtos.csv"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File fileToSave = fileChooser.getSelectedFile();
+
+            try (java.io.PrintWriter pw = new java.io.PrintWriter(fileToSave, "UTF-8")) {
+
+                // Cabeçalhos
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    pw.print(model.getColumnName(i));
+                    if (i < model.getColumnCount() - 1) pw.print(";");
+                }
+                pw.println();
+
+                // Linhas da tabela
+                for (int row = 0; row < model.getRowCount(); row++) {
+                    for (int col = 0; col < model.getColumnCount(); col++) {
+                        Object value = model.getValueAt(row, col);
+                        pw.print(value != null ? value.toString() : "");
+                        if (col < model.getColumnCount() - 1) pw.print(";");
+                    }
+                    pw.println();
+                }
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Arquivo CSV exportado com sucesso!",
+                        "Sucesso",
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Erro ao exportar CSV: " + e.getMessage(),
+                        "Erro",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void JButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonCancelarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_JButtonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,6 +286,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JButtonCancelar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel6;
