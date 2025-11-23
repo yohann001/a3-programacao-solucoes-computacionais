@@ -43,11 +43,11 @@ public class ProdutoDAO {
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
 
-            String server = "bwgyactsuuve5cowvycs-mysql.services.clever-cloud.com";
-            String database = "bwgyactsuuve5cowvycs";
-            String url = "jdbc:mysql://" + server + ":3306/" + database;
-            String user = "ublbzt0cknm4phvd";
-            String password = "GJdQI3oichlWhHepNLhT";
+            String server = "estoque-ps6711534-f574.d.aivencloud.com:19913/defaultdb?ssl-mode=REQUIRED";
+            String database = "defaultdb";
+            String url = "jdbc:mysql://" + server + ":19913/" + database;
+            String user = "avnadmin";
+            String password = "AVNS_qUgty15qAyx3rTYNp5F";
 
             connection = DriverManager.getConnection(url, user, password);
 
