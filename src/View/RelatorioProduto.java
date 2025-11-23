@@ -4,19 +4,77 @@
  */
 package View;
 
+import DAO.ProdutoDAO;
+import Controller.ProdutoControllers;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+
+
 /**
  *
  * @author luz
  */
 public class RelatorioProduto extends javax.swing.JFrame {
-    
+
+    private ProdutoControllers controller;
+    private ProdutoDAO dao;
+    private TableRowSorter<DefaultTableModel> sorterRelatorio;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RelatorioProduto.class.getName());
+
+    private void filtrarTabelaRelatorio() {
+        String texto = txt_busca_relatorio.getText().toLowerCase();
+        DefaultTableModel model = (DefaultTableModel) jTableRelatorio.getModel();
+
+        if (sorterRelatorio == null) {
+            sorterRelatorio = new TableRowSorter<>(model);
+            jTableRelatorio.setRowSorter(sorterRelatorio);
+        }
+
+        sorterRelatorio.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+    }
 
     /**
      * Creates new form RelatorioProduto
      */
     public RelatorioProduto() {
         initComponents();
+        controller = new ProdutoControllers();
+        dao = new ProdutoDAO();
+        this.setLocationRelativeTo(null);
+
+        controller.carregaTabela(jTableRelatorio);
+
+        txt_busca_relatorio.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarTabelaRelatorio();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarTabelaRelatorio();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarTabelaRelatorio();
+            }
+        });
+        
+        jTableRelatorio.setBackground(new java.awt.Color(234, 244, 255));
+        jTableRelatorio.setForeground(new java.awt.Color(58, 58, 58));
+        jTableRelatorio.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
+        jTableRelatorio.getTableHeader().setForeground(new java.awt.Color(40, 40, 40));
+        jTableRelatorio.setSelectionBackground(new java.awt.Color(215, 236, 255));
+        jTableRelatorio.setSelectionForeground(new java.awt.Color(30, 30, 30));
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(new java.awt.Color(169, 201, 255)); // azul pastel mais escuro
+        headerRenderer.setForeground(new java.awt.Color(40, 40, 40));    // texto escuro suave
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     /**
@@ -31,11 +89,11 @@ public class RelatorioProduto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        txt_busca_relatorio = new javax.swing.JFormattedTextField();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTableRelatorio = new javax.swing.JTable();
         label1 = new java.awt.Label();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -57,9 +115,9 @@ public class RelatorioProduto extends javax.swing.JFrame {
 
         jButton1.setText("Gerar Relatório ");
 
-        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt_busca_relatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField1ActionPerformed(evt);
+                txt_busca_relatorioActionPerformed(evt);
             }
         });
 
@@ -73,7 +131,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Pesquise o Produto:");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableRelatorio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -84,9 +142,9 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastro", "Data Atualização"
             }
         ));
-        jTable2.setColumnSelectionAllowed(true);
-        jScrollPane2.setViewportView(jTable2);
-        jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jTableRelatorio.setColumnSelectionAllowed(true);
+        jScrollPane2.setViewportView(jTableRelatorio);
+        jTableRelatorio.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         label1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         label1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -112,7 +170,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextField1)))
+                                .addComponent(txt_busca_relatorio)))
                         .addGap(132, 132, 132))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,7 +184,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_busca_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
@@ -139,9 +197,9 @@ public class RelatorioProduto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+    private void txt_busca_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_busca_relatorioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+    }//GEN-LAST:event_txt_busca_relatorioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -175,12 +233,12 @@ public class RelatorioProduto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableRelatorio;
     private java.awt.Label label1;
+    private javax.swing.JFormattedTextField txt_busca_relatorio;
     // End of variables declaration//GEN-END:variables
 }
