@@ -40,6 +40,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemRelatorio = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -75,6 +76,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
+
+        jMenuItemRelatorio.setText("Relatório");
+        jMenuItemRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRelatorioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemRelatorio);
 
         jMenuItem3.setText("Sair");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +158,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         //objeto.carregaTabela();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItemRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRelatorioActionPerformed
+        RelatorioProduto rel = new RelatorioProduto();
+        rel.setVisible(true);
+    }//GEN-LAST:event_jMenuItemRelatorioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -195,5 +209,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItemRelatorio;
     // End of variables declaration//GEN-END:variables
 }
