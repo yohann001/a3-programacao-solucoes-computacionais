@@ -160,6 +160,9 @@ public class ProdutoDAO {
         Produto objeto = new Produto();
         objeto.setId_produto(id);
 
+        
+        
+        
         try {
             Statement stmt = this.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_produtos WHERE id_produto = " + id);
