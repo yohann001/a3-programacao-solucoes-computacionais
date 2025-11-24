@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Projetos/ProjetoA3/src/DAO/ProdutoDAO.java</file>
-            <file>file:/C:/Projetos/ProjetoA3/src/Controller/ProdutoControllers.java</file>
-            <file>file:/C:/Projetos/ProjetoA3/src/View/GerenciaProduto.java</file>
-            <file>file:/C:/Projetos/ProjetoA3/src/Principal/Principal.java</file>
+            <file>file:/C:/Users/ps671/Documents/A3-/a3-programacao-solucoes-computacionais/src/Controller/ProdutoControllers.java</file>
+            <file>file:/C:/Users/ps671/Documents/A3-/a3-programacao-solucoes-computacionais/src/DAO/ProdutoDAO.java</file>
+            <file>file:/C:/Users/ps671/Documents/A3-/a3-programacao-solucoes-computacionais/src/View/GerenciaProduto.java</file>
+            <file>file:/C:/Users/ps671/Documents/A3-/a3-programacao-solucoes-computacionais/src/Model/Produto.java</file>
+            <file>file:/C:/Users/ps671/Documents/A3-/a3-programacao-solucoes-computacionais/src/View/RelatorioProduto.java</file>
         </group>
     </open-files>
 </project-private>
