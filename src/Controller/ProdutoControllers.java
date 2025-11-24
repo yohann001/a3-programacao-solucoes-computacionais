@@ -43,7 +43,7 @@ public class ProdutoControllers {
 
             }
 
-            if (c_quantidade.getText().length() < 2) {
+            if (c_quantidade.getText().length() < 0) {
                 throw new Mensagens("Quantidade deve ser maior ou igual a 0.");
             } else {
                 qntEstoque = Integer.parseInt(c_quantidade.getText());
@@ -158,7 +158,8 @@ public class ProdutoControllers {
                 a.getDescricao_produto(),
                 a.getQuantidade_estoque(),
                 a.getPreco(),
-                a.getData_cadastro()
+                a.getData_cadastro(),
+                a.getData_Atualizacao()
             });
         }
     }

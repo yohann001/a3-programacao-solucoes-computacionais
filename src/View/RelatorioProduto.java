@@ -134,13 +134,13 @@ public class RelatorioProduto extends javax.swing.JFrame {
 
         jTableRelatorio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastro", "Data Atualização"
+                "Id", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastro", "Data Atualização"
             }
         ));
         jTableRelatorio.setColumnSelectionAllowed(true);
