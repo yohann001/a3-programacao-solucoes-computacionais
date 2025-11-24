@@ -84,9 +84,9 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
-//                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
-                //tirei isso pq ele buscava uma coluna q nao existia e por isso nao atualizava a tabela, qnd tiver pode add dnv
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
+                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
+               
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao);
 
                 MinhaLista.add(objeto);
             }
@@ -100,7 +100,7 @@ public class ProdutoDAO {
     }
 
     public boolean InsertProdutoBD(Produto objeto) {
-        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco, data_cadastro) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco) VALUES(?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -110,8 +110,6 @@ public class ProdutoDAO {
             stmt.setString(3, objeto.getDescricao_produto());
             stmt.setInt(4, objeto.getQuantidade_estoque());
             stmt.setDouble(5, objeto.getPreco());
-            stmt.setDate(6, java.sql.Date.valueOf(objeto.getData_cadastro()));
-
             stmt.execute();
             stmt.close();
 
@@ -137,7 +135,7 @@ public class ProdutoDAO {
     }
 
     public boolean UpdateProdutoBD(Produto objeto) {
-        String sql = "UPDATE tb_produtos set nome_produto = ? ,descricao_produto = ? ,quantidade_estoque = ? ,preco = ?, data_cadastro = ? WHERE id_produto = ?";
+        String sql = "UPDATE tb_produtos set nome_produto = ? ,descricao_produto = ? ,quantidade_estoque = ? ,preco = ? WHERE id_produto = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -146,9 +144,7 @@ public class ProdutoDAO {
             stmt.setString(2, objeto.getDescricao_produto());
             stmt.setInt(3, objeto.getQuantidade_estoque());
             stmt.setDouble(4, objeto.getPreco());
-            stmt.setDate(5, java.sql.Date.valueOf(objeto.getData_cadastro()));
-            stmt.setInt(6, objeto.getId_produto());
-
+            stmt.setInt(5, objeto.getId_produto());
             stmt.execute();
             stmt.close();
 
@@ -174,6 +170,7 @@ public class ProdutoDAO {
                 objeto.setQuantidade_estoque(res.getInt("quantidade_estoque"));
                 objeto.setPreco(res.getDouble("preco"));
                 objeto.setData_cadastro(res.getDate("data_cadastro").toLocalDate());
+                objeto.setData_Atualizacao(res.getDate("data_atualizacao").toLocalDate());
             }
 
             stmt.close();
@@ -199,8 +196,8 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
-
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data);
+                java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data,data_atualizacao);
                 MinhaLista.add(objeto);
             }
             stmt.close();
