@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import java.util.List;
+
 
 
 public class ProdutoControllers {
@@ -21,6 +23,10 @@ public class ProdutoControllers {
     public ProdutoControllers() {
         this.dao = new ProdutoDAO();
     }
+    public List<Produto> buscarProdutosPorTermo(String termo) {
+  
+    return this.dao.buscarProdutosPorTermo(termo);
+}
 
     public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
         try {

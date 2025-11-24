@@ -182,6 +182,74 @@ public class ProdutoDAO {
     }
 
     //ADICIONAIS
+     
+  
+
+    public List<Produto> buscarProdutosPorTermo(String termo) {
+    
+    List<Produto> produtos = new ArrayList<>();
+    
+   
+    String sql;
+    if (termo == null || termo.trim().isEmpty()) {
+      
+        sql = "SELECT * FROM tb_produtos"; 
+    } else {
+     
+        sql = "SELECT * FROM tb_produtos WHERE nome_produto LIKE ? OR descricao_produto LIKE ?";
+    }
+
+    PreparedStatement stmt = null;
+    ResultSet res = null;
+    
+    try {
+       
+        stmt = this.getConexao().prepareStatement(sql); 
+        
+   
+        if (termo != null && !termo.trim().isEmpty()) {
+            String termoComWildcard = "%" + termo + "%";
+            stmt.setString(1, termoComWildcard);
+            stmt.setString(2, termoComWildcard);
+        }
+        
+        res = stmt.executeQuery();
+        
+        while (res.next()) {
+          
+            int id = res.getInt("id_produto");
+            String nome = res.getString("nome_produto");
+            String descricao = res.getString("descricao_produto");
+            int qtd = res.getInt("quantidade_estoque");
+            double preco = res.getDouble("preco");
+            
+        
+            java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
+            java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
+            
+            
+            Produto produto = new Produto(id, nome, descricao, qtd, preco, data, data_atualizacao);
+            produtos.add(produto);
+        }
+        
+       
+        if (stmt != null) {
+            stmt.close();
+        }
+        
+    } catch (SQLException ex) {
+        System.out.println("Erro ao buscar produtos: " + ex.getMessage());
+    } finally {
+        
+        try { if (res != null) res.close(); } catch (SQLException e) {  }
+       
+        try { if (stmt != null && !stmt.isClosed()) stmt.close(); } catch (SQLException e) {  }
+    }
+    
+    return produtos;
+}
+
+    
     public ArrayList<Produto> getMinhaListaOrdenadaPorPreco() {
         String sql = "SELECT * FROM tb_produtos ORDER BY preco ASC";
         MinhaLista.clear();
