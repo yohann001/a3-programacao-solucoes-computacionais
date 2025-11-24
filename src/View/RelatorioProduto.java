@@ -115,6 +115,11 @@ public class RelatorioProduto extends javax.swing.JFrame {
         setAlwaysOnTop(true);
 
         jButton1.setText("Gerar Relatório ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         txt_busca_relatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,7 +127,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Exportar CSV ( Excel)");
+        jButton2.setText("Exportar CSV (Excel)");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -224,6 +229,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
             java.io.File fileToSave = fileChooser.getSelectedFile();
 
             try (java.io.PrintWriter pw = new java.io.PrintWriter(fileToSave, "UTF-8")) {
+                pw.write('\uFEFF');
 
                 // Cabeçalhos
                 for (int i = 0; i < model.getColumnCount(); i++) {
@@ -259,6 +265,11 @@ public class RelatorioProduto extends javax.swing.JFrame {
     private void JButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonCancelarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_JButtonCancelarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txt_busca_relatorio.setText("");
+        controller.carregaTabela(jTableRelatorio);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
