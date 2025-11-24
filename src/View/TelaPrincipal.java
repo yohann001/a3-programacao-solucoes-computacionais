@@ -113,7 +113,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem5.setText("Nosso grupo");
+        jMenuItem5.setText("Nossa equipe");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
