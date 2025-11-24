@@ -197,6 +197,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu2ActionPerformed
 
+    private void jMenuItemRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRelatorioActionPerformed
+        RelatorioProduto rel = new RelatorioProduto();
+        rel.setVisible(true);
+    }//GEN-LAST:event_jMenuItemRelatorioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -244,5 +249,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItemRelatorio;
     // End of variables declaration//GEN-END:variables
 }
