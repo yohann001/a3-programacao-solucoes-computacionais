@@ -180,10 +180,7 @@ public class ProdutoDAO {
         }
         return objeto;
     }
-
     //ADICIONAIS
-     
-  
 
     public List<Produto> buscarProdutosPorTermo(String termo) {
     
@@ -250,8 +247,12 @@ public class ProdutoDAO {
 }
 
     
-    public ArrayList<Produto> getMinhaListaOrdenadaPorPreco() {
-        String sql = "SELECT * FROM tb_produtos ORDER BY preco ASC";
+    public ArrayList<Produto> getMinhaListaOrdenadaPorPreco(boolean crescente) {
+        
+        String ordem = crescente ? "ASC" : "DESC";
+        
+        String sql = "SELECT * FROM tb_produtos ORDER BY preco "+ ordem;
+        
         MinhaLista.clear();
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -264,7 +265,10 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
-                java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
+                
+                java.sql.Date dataAtSql = res.getDate("data_atualizacao");
+                java.time.LocalDate data_atualizacao = (dataAtSql != null) ? dataAtSql.toLocalDate() : null;
+                
                 Produto objeto = new Produto(id, nome, descricao, qtd, preco, data,data_atualizacao);
                 MinhaLista.add(objeto);
             }
