@@ -11,12 +11,15 @@ import javax.swing.SwingConstants;
 import DAO.ProdutoDAO;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
+import java.awt.Color;
+
 
 public class GerenciaProduto extends javax.swing.JFrame {
 
     private Produto objProduto; // cria o v�nculo com o objaluno
     private ProdutoControllers controller;
     private ProdutoDAO dao;
+    private int ordenacao = 0;
 
     private void filtrarTabela() {
         String texto = txt_busca.getText().toLowerCase();
@@ -53,12 +56,14 @@ public class GerenciaProduto extends javax.swing.JFrame {
         this.dao = new ProdutoDAO();
         controller.carregaTabela(jTableProdutos);
 
+        /*
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowActivated(java.awt.event.WindowEvent e) {
                 controller.carregaTabela(jTableProdutos);
             }
         });
+        */
 
         jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
         jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
@@ -75,6 +80,36 @@ public class GerenciaProduto extends javax.swing.JFrame {
 // Aplica o renderer em cada coluna do cabeçalho
         for (int i = 0; i < jTableProdutos.getColumnModel().getColumnCount(); i++) {
             jTableProdutos.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+
+        // --- Deixar todos os botões iguais ---
+        Color azul = new java.awt.Color(169, 201, 255);       // azul pastel
+        Color azulHover = new java.awt.Color(149, 181, 235);  // hover mais escuro
+        Color textoEscuro = new java.awt.Color(40, 40, 40);
+
+        javax.swing.JButton[] botoes = {b_cancelar, b_alterar, b_apagar, b_ordenar};
+
+        for (javax.swing.JButton btn : botoes) {
+
+            btn.setBackground(azul);
+            btn.setForeground(textoEscuro);
+            btn.setFocusPainted(false);
+            btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(120, 150, 200), 1, true));
+            btn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+            btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+            // efeito hover
+            btn.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btn.setBackground(azulHover);
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btn.setBackground(azul);
+                }
+            });
         }
 
     }
@@ -206,7 +241,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
             }
         });
 
-        b_ordenar.setText("Ordenar por Preço");
+        b_ordenar.setText("Preço (↑↓)");
         b_ordenar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_ordenarActionPerformed(evt);
@@ -250,23 +285,25 @@ public class GerenciaProduto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(b_ordenar)))
-                .addContainerGap())
+                        .addComponent(b_ordenar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(b_ordenar)
                     .addComponent(jLabel5)
-                    .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b_ordenar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -345,7 +382,22 @@ public class GerenciaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_c_precoActionPerformed
 
     private void b_ordenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ordenarActionPerformed
-        controller.carregaTabelaOrdenada(jTableProdutos);        // TODO add your handling code here:
+        ordenacao++;
+        
+        if(ordenacao > 2){
+            ordenacao = 0;
+        }
+        
+        if(ordenacao == 0){
+            b_ordenar.setText("Preço (↑↓)");
+            controller.carregaTabela(jTableProdutos);
+        } else if(ordenacao == 1){
+            b_ordenar.setText("Preço (↑)"); 
+            controller.carregaTabelaOrdenada(jTableProdutos, true);
+        } else if(ordenacao == 2){
+            b_ordenar.setText("Preço (↓)");
+            controller.carregaTabelaOrdenada(jTableProdutos, false);
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_b_ordenarActionPerformed
 
     private void txt_buscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscaActionPerformed

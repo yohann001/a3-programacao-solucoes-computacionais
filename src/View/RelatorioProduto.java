@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import Model.Produto;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
 
 /**
  *
@@ -69,7 +70,42 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 filtrarTabelaRelatorio();
             }
         });
-        
+
+        // --- Deixar os botões iguais aos da tela GerenciaProduto ---
+        Color azul = new java.awt.Color(169, 201, 255);       // azul pastel
+        Color azulHover = new java.awt.Color(149, 181, 235);  // hover mais escuro
+        Color textoEscuro = new java.awt.Color(40, 40, 40);
+
+// Lista dos botões desta tela
+        javax.swing.JButton[] botoesRelatorio = {
+            jButton1, // Gerar Relatório
+            jButton2, // Exportar CSV
+            JButtonCancelar // Cancelar
+        };
+
+        for (javax.swing.JButton btn : botoesRelatorio) {
+
+            btn.setBackground(azul);
+            btn.setForeground(textoEscuro);
+            btn.setFocusPainted(false);
+            btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(120, 150, 200), 1, true));
+            btn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+            btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+            // efeito hover
+            btn.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btn.setBackground(azulHover);
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btn.setBackground(azul);
+                }
+            });
+        }
+
         jTableRelatorio.setBackground(new java.awt.Color(234, 244, 255));
         jTableRelatorio.setForeground(new java.awt.Color(58, 58, 58));
         jTableRelatorio.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
@@ -177,13 +213,6 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(121, 121, 121)
-                        .addComponent(JButtonCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(31, 31, 31))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(124, 124, 124)
@@ -194,7 +223,14 @@ public class RelatorioProduto extends javax.swing.JFrame {
                                 .addComponent(txt_busca_relatorio)))
                         .addGap(132, 132, 132))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(114, 114, 114)
+                                .addComponent(JButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(108, 108, 108)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(20, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -240,7 +276,9 @@ public class RelatorioProduto extends javax.swing.JFrame {
                 // Cabeçalhos
                 for (int i = 0; i < model.getColumnCount(); i++) {
                     pw.print(model.getColumnName(i));
-                    if (i < model.getColumnCount() - 1) pw.print(";");
+                    if (i < model.getColumnCount() - 1) {
+                        pw.print(";");
+                    }
                 }
                 pw.println();
 
@@ -249,7 +287,9 @@ public class RelatorioProduto extends javax.swing.JFrame {
                     for (int col = 0; col < model.getColumnCount(); col++) {
                         Object value = model.getValueAt(row, col);
                         pw.print(value != null ? value.toString() : "");
-                        if (col < model.getColumnCount() - 1) pw.print(";");
+                        if (col < model.getColumnCount() - 1) {
+                            pw.print(";");
+                        }
                     }
                     pw.println();
                 }
