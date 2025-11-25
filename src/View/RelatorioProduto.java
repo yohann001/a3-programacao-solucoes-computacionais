@@ -11,6 +11,12 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.io.File;
+import java.io.FileWriter;
+import java.awt.Desktop;
+import java.util.ArrayList;
+import Model.Produto;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -267,8 +273,38 @@ public class RelatorioProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_JButtonCancelarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        txt_busca_relatorio.setText("");
-        controller.carregaTabela(jTableRelatorio);
+       try {
+       
+        ArrayList<Produto> lista = dao.getMinhaLista();
+
+   
+        StringBuilder doc = new StringBuilder();
+        doc.append("<html xmlns:o='urn:schemas-microsoft-com🏢office' xmlns:w='urn:schemas-microsoft-com🏢word' xmlns='http://www.w3.org/TR/REC-html40'>");
+        doc.append("<head><meta charset='utf-8'><title>Relatório</title></head>");
+        doc.append("<body style='font-family: Arial; font-size: 12pt;'>");
+        doc.append("<h1 style='text-align: center; font-size: 18pt; font-weight: bold;'>RELATÓRIO DOS PRODUTOS</h1><hr><br>");
+
+        int contador = 1;
+        for (Produto p : lista) {
+            
+            doc.append("<p style='margin-bottom: 20px;'>");
+            doc.append("<b>Produto ").append(contador++).append(":</b><br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;ID: ").append(p.getId_produto()).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Nome: ").append(p.getNome_produto()).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Descrição: ").append(p.getDescricao_produto()).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Quantidade: ").append(p.getQuantidade_estoque()).append("<br>");    
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Preço: R$ ").append(String.format("%.2f", p.getPreco())).append("<br>");     
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Data Cadastro: ").append(p.getData_cadastro()).append("<br>");
+            String atualizacao = (p.getData_Atualizacao() != null) ? p.getData_Atualizacao().toString() : "N/A";
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Data Atualização: ").append(atualizacao).append("<br>");
+            doc.append("</p>");
+            doc.append("<br>"); 
+        }
+            doc.append("</body></html>");
+        } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+    }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
