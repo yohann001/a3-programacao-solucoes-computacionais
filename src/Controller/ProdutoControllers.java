@@ -208,11 +208,11 @@ public class ProdutoControllers {
     }
     
 
-    public void carregaTabelaOrdenada(JTable jTableProdutos) {
+    public void carregaTabelaOrdenada(JTable jTableProdutos, boolean crescente) {
         DefaultTableModel modelo = (DefaultTableModel) jTableProdutos.getModel();
         modelo.setNumRows(0); 
 
-        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco();
+        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco(crescente);
 
         for (Produto a : listaOrdenada) {
             modelo.addRow(new Object[]{
@@ -221,7 +221,8 @@ public class ProdutoControllers {
                 a.getDescricao_produto(),
                 a.getQuantidade_estoque(),
                 a.getPreco(),
-                a.getData_cadastro()
+                a.getData_cadastro(),
+                a.getData_Atualizacao()
             });
         }
     }
