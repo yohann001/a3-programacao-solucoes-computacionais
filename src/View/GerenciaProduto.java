@@ -56,12 +56,14 @@ public class GerenciaProduto extends javax.swing.JFrame {
         this.dao = new ProdutoDAO();
         controller.carregaTabela(jTableProdutos);
 
+        /*
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowActivated(java.awt.event.WindowEvent e) {
                 controller.carregaTabela(jTableProdutos);
             }
         });
+        */
 
         jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
         jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
