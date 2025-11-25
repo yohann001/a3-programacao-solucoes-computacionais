@@ -300,9 +300,23 @@ public class RelatorioProduto extends javax.swing.JFrame {
             doc.append("</p>");
             doc.append("<br>"); 
         }
-            doc.append("</body></html>");
+        doc.append("</body></html>");
+           
+        
+        File arquivo = new File("Relatorio_Produtos.doc");
+        FileWriter writer = new FileWriter(arquivo);
+        writer.write(doc.toString());
+        writer.close();
+
+       
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(arquivo);
+        } else {
+            JOptionPane.showMessageDialog(this, "Relatório salvo em: " + arquivo.getAbsolutePath());
+        }
         } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+                
     }
 
     }//GEN-LAST:event_jButton1ActionPerformed
