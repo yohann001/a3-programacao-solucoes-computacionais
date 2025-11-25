@@ -85,8 +85,9 @@ public class ProdutoDAO {
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
                 LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
+                int id_fornecedor = res.getInt("id_fornecedor");
                
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao);
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao, id_fornecedor);
 
                 MinhaLista.add(objeto);
             }
@@ -100,7 +101,7 @@ public class ProdutoDAO {
     }
 
     public boolean InsertProdutoBD(Produto objeto) {
-        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco, id_fornecedor) VALUES(?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -110,6 +111,7 @@ public class ProdutoDAO {
             stmt.setString(3, objeto.getDescricao_produto());
             stmt.setInt(4, objeto.getQuantidade_estoque());
             stmt.setDouble(5, objeto.getPreco());
+            stmt.setInt(6, objeto.getId_fornecedor());
             stmt.execute();
             stmt.close();
 
@@ -135,7 +137,7 @@ public class ProdutoDAO {
     }
 
     public boolean UpdateProdutoBD(Produto objeto) {
-        String sql = "UPDATE tb_produtos set nome_produto = ? ,descricao_produto = ? ,quantidade_estoque = ? ,preco = ? WHERE id_produto = ?";
+        String sql = "UPDATE tb_produtos set nome_produto = ?, descricao_produto = ?, quantidade_estoque = ?, preco = ?, id_fornecedor = ? WHERE id_produto = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -144,7 +146,8 @@ public class ProdutoDAO {
             stmt.setString(2, objeto.getDescricao_produto());
             stmt.setInt(3, objeto.getQuantidade_estoque());
             stmt.setDouble(4, objeto.getPreco());
-            stmt.setInt(5, objeto.getId_produto());
+            stmt.setInt(5, objeto.getId_fornecedor());
+            stmt.setInt(6, objeto.getId_produto());
             stmt.execute();
             stmt.close();
 
@@ -222,13 +225,13 @@ public class ProdutoDAO {
             String descricao = res.getString("descricao_produto");
             int qtd = res.getInt("quantidade_estoque");
             double preco = res.getDouble("preco");
-            
+            int id_fornecedor = res.getInt("id_fornecedor");
         
             java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
             java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
             
             
-            Produto produto = new Produto(id, nome, descricao, qtd, preco, data, data_atualizacao);
+            Produto produto = new Produto(id, nome, descricao, qtd, preco, data, data_atualizacao, id_fornecedor);
             produtos.add(produto);
         }
         
@@ -263,9 +266,12 @@ public class ProdutoDAO {
                 String descricao = res.getString("descricao_produto");
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
+                int id_fornecedor = res.getInt("id_fornecedor");
+                
                 java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
                 java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data,data_atualizacao);
+                
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data,data_atualizacao, id_fornecedor);
                 MinhaLista.add(objeto);
             }
             stmt.close();

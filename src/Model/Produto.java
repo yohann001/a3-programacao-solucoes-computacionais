@@ -13,25 +13,26 @@ public class Produto {
     private double preco;
     private LocalDate data_cadastro;
     private LocalDate data_atualizacao;
+    private int id_fornecedor;
 
     private final ProdutoDAO dao;
 
     public Produto() {
         this.dao = new ProdutoDAO();
-
     }
 
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco) {
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, int id_fornecedor) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
         this.quantidade_estoque = quantidade_estoque;
         this.preco = preco;
-        this.data_cadastro = LocalDate.now();;
+        this.id_fornecedor = id_fornecedor;
+        this.data_cadastro = LocalDate.now();
         this.dao = new ProdutoDAO();
     }
     //tirei o datatAtulizacao dos parametros, qnd tiver a coluna na tabela ai sim add como parametro
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate data_atualizacao) {
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate data_atualizacao, int id_fornecedor) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
@@ -39,6 +40,7 @@ public class Produto {
         this.preco = preco;
         this.data_cadastro = data;
         this.data_atualizacao = data_atualizacao;
+        this.id_fornecedor = id_fornecedor;
         this.dao = new ProdutoDAO();
     }
 
@@ -80,6 +82,14 @@ public class Produto {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public int getId_fornecedor() {
+        return id_fornecedor;
+    }
+
+    public void setId_fornecedor(int id_fornecedor) {
+        this.id_fornecedor = id_fornecedor;
     }
 
     public LocalDate getData_cadastro() {
