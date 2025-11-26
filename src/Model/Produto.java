@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDate;
 
 public class Produto {
+
     private int id_produto;
     private String nome_produto;
     private String descricao_produto;
@@ -31,6 +32,7 @@ public class Produto {
         this.data_cadastro = LocalDate.now();
         this.dao = new ProdutoDAO();
     }
+
     //tirei o datatAtulizacao dos parametros, qnd tiver a coluna na tabela ai sim add como parametro
     public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate data_atualizacao, int id_fornecedor) {
         this.id_produto = id_produto;
@@ -99,7 +101,7 @@ public class Produto {
     public void setData_cadastro(LocalDate data_cadastro) {
         this.data_cadastro = data_cadastro;
     }
-    
+
     public LocalDate getData_Atualizacao() {
         return data_atualizacao;
     }
@@ -110,14 +112,15 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "\n ID: " + this.getId_produto() +
-               "\n Nome: " + this.getNome_produto() +
-               "\n Descrição: " + this.getDescricao_produto() +
-               "\n Quantidade em Estoque: " + this.getQuantidade_estoque() +
-               "\n Preço: " + this.getPreco() +
-               "\n Data de Cadastro: " + this.getData_cadastro() +
-                "\n Data de Atualização: " + this.getData_Atualizacao() +
-                "\n---------------------------";
+        return "\n ID: " + this.getId_produto()
+                + "\n Nome: " + this.getNome_produto()
+                + "\n Descrição: " + this.getDescricao_produto()
+                + "\n Quantidade em Estoque: " + this.getQuantidade_estoque()
+                + "\n Preço: " + this.getPreco()
+                + "\n Fornecedor (ID): " + this.getId_fornecedor()
+                + "\n Data de Cadastro: " + this.getData_cadastro()
+                + "\n Data de Atualização: " + this.getData_Atualizacao()
+                + "\n---------------------------";
     }
 
 //    public ArrayList<Produto> getListaProduto() {
