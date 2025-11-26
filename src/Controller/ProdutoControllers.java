@@ -28,7 +28,7 @@ public class ProdutoControllers {
     return this.dao.buscarProdutosPorTermo(termo);
 }
 
-    public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
+    public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco, int id_fornecedor) {
         try {
             // recebendo e validando dados da interface gr�fica.
             String nome = "";
@@ -62,7 +62,7 @@ public class ProdutoControllers {
             }
             int id = this.dao.maiorID() + 1;
 
-            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
+            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco, id_fornecedor);
             // envia os dados para o Controlador cadastrar
             if (this.dao.InsertProdutoBD(objProduto)) {
                 JOptionPane.showMessageDialog(null, "Produto Cadastrado com Sucesso!");
@@ -85,7 +85,7 @@ public class ProdutoControllers {
         }
     }
     
-    public void alterarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco){
+    public void alterarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco, int id_fornecedor){
         try {
             // recebendo e validando dados da interface gr�fica.
             String nome = "";
@@ -125,8 +125,8 @@ public class ProdutoControllers {
                 id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
             }
 
-            Produto objProduto = new Produto(id,nome,descricao,qntEstoque,preco);
-            // envia os dados para o Aluno processar
+            Produto objProduto = new Produto(id,nome,descricao,qntEstoque,preco, id_fornecedor);
+         
             if (this.dao.UpdateProdutoBD(objProduto)) {
 
                 // limpa os campos
@@ -165,7 +165,8 @@ public class ProdutoControllers {
                 a.getQuantidade_estoque(),
                 a.getPreco(),
                 a.getData_cadastro(),
-                a.getData_Atualizacao()
+                a.getData_Atualizacao(),
+                a.getId_fornecedor()
             });
         }
     }
@@ -208,11 +209,11 @@ public class ProdutoControllers {
     }
     
 
-    public void carregaTabelaOrdenada(JTable jTableProdutos) {
+    public void carregaTabelaOrdenada(JTable jTableProdutos, boolean crescente) {
         DefaultTableModel modelo = (DefaultTableModel) jTableProdutos.getModel();
         modelo.setNumRows(0); 
 
-        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco();
+        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco(crescente);
 
         for (Produto a : listaOrdenada) {
             modelo.addRow(new Object[]{
@@ -221,7 +222,9 @@ public class ProdutoControllers {
                 a.getDescricao_produto(),
                 a.getQuantidade_estoque(),
                 a.getPreco(),
-                a.getData_cadastro()
+                a.getData_cadastro(),
+                a.getData_Atualizacao(),
+                a.getId_fornecedor()
             });
         }
     }

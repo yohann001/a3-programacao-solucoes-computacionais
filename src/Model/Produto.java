@@ -119,7 +119,9 @@ public class Produto {
                "\n Preço: " + this.getPreco() +
                "\n Data de Cadastro: " + this.getData_cadastro() +
                 "\n Data de Atualização: " + this.getData_Atualizacao() +
+                "\n Fornecedor (ID): " + this.getId_fornecedor() +
                 "\n---------------------------";
+        } 
     }
 
 //    public ArrayList<Produto> getListaProduto() {
@@ -148,4 +150,4 @@ public class Produto {
 //    public int maiorID() throws SQLException {
 //        return dao.maiorID();
 //    }
-}
+
