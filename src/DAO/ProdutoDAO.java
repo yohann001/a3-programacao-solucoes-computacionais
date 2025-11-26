@@ -84,9 +84,15 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
-                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
+                java.sql.Date dataAtSql = res.getDate("data_atualizacao");
+               LocalDate dataAtualizacao = null;
+                if (dataAtSql != null) {
+                dataAtualizacao = LocalDate.parse(dataAtSql.toString());
+                }
+                
+                int id_fornecedor = res.getInt("id_fornecedor");
                
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao);
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao, id_fornecedor);
 
                 MinhaLista.add(objeto);
             }
@@ -100,7 +106,7 @@ public class ProdutoDAO {
     }
 
     public boolean InsertProdutoBD(Produto objeto) {
-        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco, id_fornecedor, data_cadastro) VALUES(?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -110,6 +116,8 @@ public class ProdutoDAO {
             stmt.setString(3, objeto.getDescricao_produto());
             stmt.setInt(4, objeto.getQuantidade_estoque());
             stmt.setDouble(5, objeto.getPreco());
+            stmt.setInt(6, objeto.getId_fornecedor());
+            stmt.setDate(7, java.sql.Date.valueOf(objeto.getData_cadastro()));
             stmt.execute();
             stmt.close();
 
@@ -135,7 +143,7 @@ public class ProdutoDAO {
     }
 
     public boolean UpdateProdutoBD(Produto objeto) {
-        String sql = "UPDATE tb_produtos set nome_produto = ? ,descricao_produto = ? ,quantidade_estoque = ? ,preco = ? WHERE id_produto = ?";
+        String sql = "UPDATE tb_produtos set nome_produto = ? ,descricao_produto = ? ,quantidade_estoque = ? ,preco = ?,id_fornecedor = ?, data_atualizacao = ? WHERE id_produto = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -144,7 +152,10 @@ public class ProdutoDAO {
             stmt.setString(2, objeto.getDescricao_produto());
             stmt.setInt(3, objeto.getQuantidade_estoque());
             stmt.setDouble(4, objeto.getPreco());
-            stmt.setInt(5, objeto.getId_produto());
+            stmt.setInt(5, objeto.getId_fornecedor());
+            stmt.setDate(6, java.sql.Date.valueOf(LocalDate.now())); 
+            stmt.setInt(7, objeto.getId_produto());
+            
             stmt.execute();
             stmt.close();
 
@@ -170,7 +181,11 @@ public class ProdutoDAO {
                 objeto.setQuantidade_estoque(res.getInt("quantidade_estoque"));
                 objeto.setPreco(res.getDouble("preco"));
                 objeto.setData_cadastro(res.getDate("data_cadastro").toLocalDate());
-                objeto.setData_Atualizacao(res.getDate("data_atualizacao").toLocalDate());
+                java.sql.Date dataAtSql = res.getDate("data_atualizacao");
+                if(dataAtSql != null) objeto.setData_Atualizacao(dataAtSql.toLocalDate());
+                
+                objeto.setId_fornecedor(res.getInt("id_fornecedor"));
+                
             }
 
             stmt.close();
@@ -225,10 +240,15 @@ public class ProdutoDAO {
             
         
             java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
-            java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
+            java.sql.Date dataSql = res.getDate("data_atualizacao");
+            java.time.LocalDate data_atualizacao = null;
+            if (dataSql != null) {
+            data_atualizacao = dataSql.toLocalDate();
+            }
+            int id_fornecedor = res.getInt("id_fornecedor");
             
             
-            Produto produto = new Produto(id, nome, descricao, qtd, preco, data, data_atualizacao);
+            Produto produto = new Produto(id, nome, descricao, qtd, preco, data, data_atualizacao, id_fornecedor);
             produtos.add(produto);
         }
         
@@ -250,7 +270,7 @@ public class ProdutoDAO {
 }
 
     
-    public ArrayList<Produto> getMinhaListaOrdenadaPorPreco() {
+    public ArrayList<Produto> getMinhaListaOrdenadaPorPreco(boolean crescente) {
         String sql = "SELECT * FROM tb_produtos ORDER BY preco ASC";
         MinhaLista.clear();
         try {
@@ -264,8 +284,13 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
-                java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
-                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data,data_atualizacao);
+                java.sql.Date dataSql = res.getDate("data_atualizacao");
+                java.time.LocalDate data_atualizacao = null;
+                if (dataSql != null) {
+                data_atualizacao = dataSql.toLocalDate();
+                }
+                int id_fornecedor = res.getInt("id_fornecedor");
+                Produto objeto = new Produto(id, nome, descricao, qtd, preco, data,data_atualizacao,id_fornecedor);
                 MinhaLista.add(objeto);
             }
             stmt.close();

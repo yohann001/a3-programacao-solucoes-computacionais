@@ -16,22 +16,25 @@ public class Produto {
 
     private final ProdutoDAO dao;
 
+    private int id_fornecedor;
+
     public Produto() {
         this.dao = new ProdutoDAO();
 
     }
 
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco) {
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, int id_fornecedor) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
         this.quantidade_estoque = quantidade_estoque;
         this.preco = preco;
-        this.data_cadastro = LocalDate.now();;
+        this.data_cadastro = LocalDate.now();
         this.dao = new ProdutoDAO();
+        this.id_fornecedor = id_fornecedor;    
     }
-    //tirei o datatAtulizacao dos parametros, qnd tiver a coluna na tabela ai sim add como parametro
-    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate data_atualizacao) {
+    
+    public Produto(int id_produto, String nome_produto, String descricao_produto, int quantidade_estoque, double preco, LocalDate data, LocalDate data_atualizacao, int id_fornecedor) {
         this.id_produto = id_produto;
         this.nome_produto = nome_produto;
         this.descricao_produto = descricao_produto;
@@ -40,6 +43,8 @@ public class Produto {
         this.data_cadastro = data;
         this.data_atualizacao = data_atualizacao;
         this.dao = new ProdutoDAO();
+        this.id_fornecedor = id_fornecedor;
+        
     }
 
     public int getId_produto() {
@@ -97,6 +102,13 @@ public class Produto {
     public void setData_Atualizacao(LocalDate data_atualizacao) {
         this.data_atualizacao = data_atualizacao;
     }
+    public int getId_fornecedor(){
+        return id_fornecedor;
+        }
+        public void setId_fornecedor(int id_fornecedor) {
+            this.id_fornecedor = id_fornecedor;
+        }
+    
 
     @Override
     public String toString() {
