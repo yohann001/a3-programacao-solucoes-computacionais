@@ -84,7 +84,11 @@ public class ProdutoDAO {
                 int qtd = res.getInt("quantidade_estoque");
                 double preco = res.getDouble("preco");
                 LocalDate data = res.getDate("data_cadastro").toLocalDate();
-                LocalDate dataAtualizacao = res.getDate("data_atualizacao").toLocalDate();
+               java.sql.Date dataAtSql = res.getDate("data_atualizacao");
+                LocalDate dataAtualizacao = null;
+                if (dataAtSql != null) {
+                    dataAtualizacao = LocalDate.parse(dataAtSql.toString());
+                }
                 int id_fornecedor = res.getInt("id_fornecedor");
                
                 Produto objeto = new Produto(id, nome, descricao, qtd, preco, data, dataAtualizacao, id_fornecedor);
@@ -101,7 +105,7 @@ public class ProdutoDAO {
     }
 
     public boolean InsertProdutoBD(Produto objeto) {
-        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco, id_fornecedor) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO tb_produtos(id_produto, nome_produto, descricao_produto, quantidade_estoque, preco, id_fornecedor) VALUES(?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -112,6 +116,7 @@ public class ProdutoDAO {
             stmt.setInt(4, objeto.getQuantidade_estoque());
             stmt.setDouble(5, objeto.getPreco());
             stmt.setInt(6, objeto.getId_fornecedor());
+            stmt.setDate(7, java.sql.Date.valueOf(objeto.getData_cadastro()));
             stmt.execute();
             stmt.close();
 
@@ -225,7 +230,11 @@ public class ProdutoDAO {
             int id_fornecedor = res.getInt("id_fornecedor");
         
             java.time.LocalDate data = res.getDate("data_cadastro").toLocalDate();
-            java.time.LocalDate data_atualizacao = res.getDate("data_atualizacao").toLocalDate();
+            java.sql.Date dataAtSql = res.getDate("data_atualizacao");
+                LocalDate data_atualizacao = null;
+                if (dataAtSql != null) {
+                    data_atualizacao = dataAtSql.toLocalDate();
+                }
             
             
             Produto produto = new Produto(id, nome, descricao, qtd, preco, data, data_atualizacao, id_fornecedor);

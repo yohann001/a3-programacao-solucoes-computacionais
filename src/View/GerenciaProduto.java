@@ -155,7 +155,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         cb_fornecedor = new javax.swing.JComboBox();
 
-        setTitle("Gerenciamento de Alunos");
+        setTitle("Gerenciamento de Estoque");
         setResizable(false);
 
         jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
