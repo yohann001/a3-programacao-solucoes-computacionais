@@ -61,14 +61,13 @@ public class GerenciaProduto extends javax.swing.JFrame {
 
         jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
 
-        /*
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowActivated(java.awt.event.WindowEvent e) {
-                controller.carregaTabela(jTableProdutos);
+                atualizarTabelaMantendoOrdenacao();
             }
         });
-         */
+
         jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
         jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
         jTableProdutos.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
@@ -451,9 +450,6 @@ public class GerenciaProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_buscaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -485,7 +481,19 @@ public class GerenciaProduto extends javax.swing.JFrame {
                 new GerenciaProduto().setVisible(true);
             }
         });
+    }
 
+    public void atualizarTabelaMantendoOrdenacao() {
+        if (ordenacao == 0) {
+            controller.carregaTabela(jTableProdutos);
+            b_ordenar.setText("Preço (↑↓)");
+        } else if (ordenacao == 1) {
+            controller.carregaTabelaOrdenada(jTableProdutos, true);
+            b_ordenar.setText("Preço (↑)");
+        } else if (ordenacao == 2) {
+            controller.carregaTabelaOrdenada(jTableProdutos, false);
+            b_ordenar.setText("Preço (↓)");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
