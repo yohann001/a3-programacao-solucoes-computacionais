@@ -14,8 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import java.util.List;
 
-
-
 public class ProdutoControllers {
 
     private ProdutoDAO dao;
@@ -28,9 +26,9 @@ public class ProdutoControllers {
     return this.dao.buscarProdutosPorTermo(termo);
 }
 
-    public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco) {
+    public void CadastrarProduto(JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco, int id_fornecedor) {
         try {
-            // recebendo e validando dados da interface gr�fica.
+            // recebendo e validando dados da interface gráfica.
             String nome = "";
             String descricao = "";
             int qntEstoque = 0;
@@ -58,11 +56,12 @@ public class ProdutoControllers {
             if (c_preco.getText().length() <= 0) {
                 throw new Mensagens("Preço deve ser maior ou igual a 0.");
             } else {
-                preco = Double.parseDouble(c_preco.getText());
+                String precoFormatado = c_preco.getText().replace(",", ".");
+                preco = Double.parseDouble(precoFormatado);
             }
             int id = this.dao.maiorID() + 1;
 
-            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco);
+            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco, id_fornecedor);
             // envia os dados para o Controlador cadastrar
             if (this.dao.InsertProdutoBD(objProduto)) {
                 JOptionPane.showMessageDialog(null, "Produto Cadastrado com Sucesso!");
@@ -85,7 +84,7 @@ public class ProdutoControllers {
         }
     }
     
-    public void alterarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade,JTextField c_preco){
+    public void alterarProduto(JTable jTableProdutos, JTextField c_nome_produto, JTextField c_descricao, JTextField c_quantidade, JTextField c_preco, int id_fornecedor){
         try {
             // recebendo e validando dados da interface gr�fica.
             String nome = "";
@@ -116,7 +115,8 @@ public class ProdutoControllers {
             if (c_preco.getText().length() <= 0) {
                 throw new Mensagens("Preço deve ser maior ou igual a 0.");
             } else {
-                preco = Double.parseDouble(c_preco.getText());
+                String precoFormatado = c_preco.getText().replace(",", ".");
+                preco = Double.parseDouble(precoFormatado);
             }
 
             if (jTableProdutos.getSelectedRow() == -1) {
@@ -125,7 +125,7 @@ public class ProdutoControllers {
                 id = Integer.parseInt(jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), 0).toString());
             }
 
-            Produto objProduto = new Produto(id,nome,descricao,qntEstoque,preco);
+            Produto objProduto = new Produto(id, nome, descricao, qntEstoque, preco, id_fornecedor);
             // envia os dados para o Aluno processar
             if (this.dao.UpdateProdutoBD(objProduto)) {
 
@@ -207,12 +207,11 @@ public class ProdutoControllers {
         }
     }
     
-
-    public void carregaTabelaOrdenada(JTable jTableProdutos) {
+    public void carregaTabelaOrdenada(JTable jTableProdutos, boolean crescente) {
         DefaultTableModel modelo = (DefaultTableModel) jTableProdutos.getModel();
         modelo.setNumRows(0); 
 
-        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco();
+        ArrayList<Produto> listaOrdenada = dao.getMinhaListaOrdenadaPorPreco(crescente);
 
         for (Produto a : listaOrdenada) {
             modelo.addRow(new Object[]{
@@ -221,7 +220,8 @@ public class ProdutoControllers {
                 a.getDescricao_produto(),
                 a.getQuantidade_estoque(),
                 a.getPreco(),
-                a.getData_cadastro()
+                a.getData_cadastro(),
+                a.getData_Atualizacao()
             });
         }
     }

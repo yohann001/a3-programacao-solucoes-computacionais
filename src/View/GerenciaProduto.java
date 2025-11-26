@@ -19,7 +19,8 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private Produto objProduto; // cria o v�nculo com o objaluno
     private ProdutoControllers controller;
     private ProdutoDAO dao;
-
+    private int ordenacao = 0;
+    
     private void filtrarTabela() {
         String texto = txt_busca.getText().toLowerCase();
         DefaultTableModel model = (DefaultTableModel) jTableProdutos.getModel();
@@ -238,7 +239,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
             }
         });
 
-        b_ordenar.setText("Ordenar por Preço");
+        b_ordenar.setText("Preço (↑↓)");
         b_ordenar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_ordenarActionPerformed(evt);
@@ -379,7 +380,22 @@ public class GerenciaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_c_precoActionPerformed
 
     private void b_ordenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ordenarActionPerformed
-        controller.carregaTabelaOrdenada(jTableProdutos);        // TODO add your handling code here:
+        ordenacao++;
+        
+        if(ordenacao > 2){
+            ordenacao = 0;
+        }
+        
+        if(ordenacao == 0){
+            b_ordenar.setText("Preço (↑↓)");
+            controller.carregaTabela(jTableProdutos);
+        } else if(ordenacao == 1){
+            b_ordenar.setText("Preço (↑)"); 
+            controller.carregaTabelaOrdenada(jTableProdutos, true);
+        } else if(ordenacao == 2){
+            b_ordenar.setText("Preço (↓)");
+            controller.carregaTabelaOrdenada(jTableProdutos, false);
+        }         // TODO add your handling code here:
     }//GEN-LAST:event_b_ordenarActionPerformed
 
     private void txt_buscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscaActionPerformed

@@ -250,7 +250,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="b_ordenar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ordenar por Pre&#xe7;o"/>
+        <Property name="text" type="java.lang.String" value="Pre&#xe7;o (&#x2191;&#x2193;)"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_ordenarActionPerformed"/>
