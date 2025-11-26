@@ -1,5 +1,8 @@
 package View;
 
+import DAO.FornecedorDAO;
+import Model.Fornecedor;
+import java.util.List;
 import Model.Produto;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -14,23 +17,24 @@ public class CadastroProduto extends javax.swing.JFrame {
 
     public CadastroProduto() {
         initComponents();
+        preencherComboFornecedores();
+
         this.objproduto = new Produto(); // carrega objeto vazio de aluno
         this.controller = new ProdutoControllers();
-        
-      b_cadastrar.setBackground(new java.awt.Color(51, 103, 138));  // azul 
-      b_cadastrar.setForeground(java.awt.Color.WHITE);            // texto branco
-      b_cadastrar.setOpaque(true);
-      b_cadastrar.setBorderPainted(false);
-      
-      //esse muda o fundo da tela
-      getContentPane().setBackground(new java.awt.Color(223, 231, 237)); // azul clarinho
 
-      
-      b_cancelar.setBackground(new java.awt.Color(116, 178, 219));  // azul 
-      b_cancelar.setForeground(java.awt.Color.WHITE); 
-      b_cancelar.setOpaque(true);
-      b_cancelar.setBorderPainted(false);
-        
+        b_cadastrar.setBackground(new java.awt.Color(51, 103, 138));  // azul 
+        b_cadastrar.setForeground(java.awt.Color.WHITE);            // texto branco
+        b_cadastrar.setOpaque(true);
+        b_cadastrar.setBorderPainted(false);
+
+        //esse muda o fundo da tela
+        getContentPane().setBackground(new java.awt.Color(223, 231, 237)); // azul clarinho
+
+        b_cancelar.setBackground(new java.awt.Color(116, 178, 219));  // azul 
+        b_cancelar.setForeground(java.awt.Color.WHITE);
+        b_cancelar.setOpaque(true);
+        b_cancelar.setBorderPainted(false);
+
     }
 
     /**
@@ -52,6 +56,7 @@ public class CadastroProduto extends javax.swing.JFrame {
         c_preco = new javax.swing.JTextField();
         b_cadastrar = new javax.swing.JButton();
         b_cancelar = new javax.swing.JButton();
+        cb_fornecedor = new javax.swing.JComboBox();
 
         setTitle("Cadastro de Produto");
         setResizable(false);
@@ -102,31 +107,40 @@ public class CadastroProduto extends javax.swing.JFrame {
             }
         });
 
+        cb_fornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_fornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_fornecedorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(95, 95, 95)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(c_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(c_nome_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(c_quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(c_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(c_nome_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(b_cancelar)
-                                .addGap(74, 74, 74)
-                                .addComponent(b_cadastrar))
-                            .addComponent(c_preco, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(c_quantidade)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(b_cancelar)
+                                    .addGap(74, 74, 74)
+                                    .addComponent(b_cadastrar))
+                                .addComponent(c_preco, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(0, 101, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -148,7 +162,9 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(c_preco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cb_fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(b_cancelar)
                     .addComponent(b_cadastrar))
@@ -176,8 +192,15 @@ public class CadastroProduto extends javax.swing.JFrame {
         String descricao = c_descricao.getText();
         int qntEstoque = Integer.parseInt(c_quantidade.getText());
         double preco = Double.parseDouble(c_preco.getText());
-        
-        this.controller.CadastrarProduto(c_nome_produto, c_descricao, c_quantidade, c_preco);
+
+        Fornecedor fornecedorSelecionado = (Fornecedor) cb_fornecedor.getSelectedItem();
+        int id_fornecedor = 0;
+
+        if (fornecedorSelecionado != null) {
+            id_fornecedor = fornecedorSelecionado.getId();
+        }
+
+        this.controller.CadastrarProduto(c_nome_produto, c_descricao, c_quantidade, c_preco, id_fornecedor);
     }//GEN-LAST:event_b_cadastrarActionPerformed
 
     private void b_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cancelarActionPerformed
@@ -190,9 +213,21 @@ public class CadastroProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_c_descricaoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void cb_fornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_fornecedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_fornecedorActionPerformed
+
+    private void preencherComboFornecedores() {
+        FornecedorDAO dao = new FornecedorDAO();
+        List<Fornecedor> lista = dao.listarFornecedores();
+
+        cb_fornecedor.removeAllItems();
+
+        for (Fornecedor f : lista) {
+            cb_fornecedor.addItem(f);
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -232,10 +267,10 @@ public class CadastroProduto extends javax.swing.JFrame {
     private javax.swing.JTextField c_nome_produto;
     private javax.swing.JTextField c_preco;
     private javax.swing.JTextField c_quantidade;
+    private javax.swing.JComboBox cb_fornecedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
-

@@ -1,6 +1,8 @@
 package View;
 
 import Controller.ProdutoControllers;
+import DAO.FornecedorDAO;
+import Model.Fornecedor;
 import Model.Produto;
 import java.util.*;
 import javax.swing.JOptionPane;
@@ -12,7 +14,6 @@ import DAO.ProdutoDAO;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
 import java.awt.Color;
-
 
 public class GerenciaProduto extends javax.swing.JFrame {
 
@@ -56,6 +57,10 @@ public class GerenciaProduto extends javax.swing.JFrame {
         this.dao = new ProdutoDAO();
         controller.carregaTabela(jTableProdutos);
 
+        preencherComboFornecedores();
+
+        jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
+
         /*
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -63,8 +68,7 @@ public class GerenciaProduto extends javax.swing.JFrame {
                 controller.carregaTabela(jTableProdutos);
             }
         });
-        */
-
+         */
         jTableProdutos.setBackground(new java.awt.Color(234, 244, 255));
         jTableProdutos.setForeground(new java.awt.Color(58, 58, 58));
         jTableProdutos.getTableHeader().setBackground(new java.awt.Color(207, 228, 255));
@@ -114,6 +118,15 @@ public class GerenciaProduto extends javax.swing.JFrame {
 
     }
 
+    private void preencherComboFornecedores() {
+        FornecedorDAO fDao = new FornecedorDAO();
+        List<Fornecedor> lista = fDao.listarFornecedores();
+        cb_fornecedor.removeAllItems();
+        for (Fornecedor f : lista) {
+            cb_fornecedor.addItem(f);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,30 +152,32 @@ public class GerenciaProduto extends javax.swing.JFrame {
         b_ordenar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txt_busca = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        cb_fornecedor = new javax.swing.JComboBox();
 
         setTitle("Gerenciamento de Alunos");
         setResizable(false);
 
         jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastrada", "Data Atualização "
+                "ID", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastrada", "Data Atualização ", "Fornecedor"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -256,6 +271,10 @@ public class GerenciaProduto extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Fornecedor");
+
+        cb_fornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -281,7 +300,11 @@ public class GerenciaProduto extends javax.swing.JFrame {
                         .addComponent(b_apagar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(32, 32, 32))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,9 +330,13 @@ public class GerenciaProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(c_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(c_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cb_fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -339,14 +366,17 @@ public class GerenciaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_b_cancelarActionPerformed
 
     private void b_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_alterarActionPerformed
-        this.controller.alterarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco);
+        Fornecedor f = (Fornecedor) cb_fornecedor.getSelectedItem();
+        int id_fornecedor = (f != null) ? f.getId() : 0;
 
+        this.controller.alterarProduto(jTableProdutos, c_nome, c_descricao, c_quantidade, c_preco, id_fornecedor);
     }//GEN-LAST:event_b_alterarActionPerformed
 
     private void jTableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosMouseClicked
 
         if (this.jTableProdutos.getSelectedRow() != -1) {
 
+            String idString = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 0).toString();
             String nome = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 1).toString();
             String descricao = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 2).toString();
             String qntEstoque = this.jTableProdutos.getValueAt(this.jTableProdutos.getSelectedRow(), 3).toString();
@@ -356,6 +386,23 @@ public class GerenciaProduto extends javax.swing.JFrame {
             this.c_descricao.setText(descricao);
             this.c_quantidade.setText(qntEstoque);
             this.c_preco.setText(preco);
+
+            try {
+                int idProduto = Integer.parseInt(idString);
+
+                Model.Produto pCompleto = dao.carregaProduto(idProduto);
+                int idFornecedorDoProduto = pCompleto.getId_fornecedor();
+
+                for (int i = 0; i < cb_fornecedor.getItemCount(); i++) {
+                    Model.Fornecedor f = (Model.Fornecedor) cb_fornecedor.getItemAt(i);
+                    if (f.getId() == idFornecedorDoProduto) {
+                        cb_fornecedor.setSelectedIndex(i);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Erro ao selecionar fornecedor: " + e.getMessage());
+            }
 
         }
     }//GEN-LAST:event_jTableProdutosMouseClicked
@@ -383,21 +430,21 @@ public class GerenciaProduto extends javax.swing.JFrame {
 
     private void b_ordenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ordenarActionPerformed
         ordenacao++;
-        
-        if(ordenacao > 2){
+
+        if (ordenacao > 2) {
             ordenacao = 0;
         }
-        
-        if(ordenacao == 0){
+
+        if (ordenacao == 0) {
             b_ordenar.setText("Preço (↑↓)");
             controller.carregaTabela(jTableProdutos);
-        } else if(ordenacao == 1){
-            b_ordenar.setText("Preço (↑)"); 
+        } else if (ordenacao == 1) {
+            b_ordenar.setText("Preço (↑)");
             controller.carregaTabelaOrdenada(jTableProdutos, true);
-        } else if(ordenacao == 2){
+        } else if (ordenacao == 2) {
             b_ordenar.setText("Preço (↓)");
             controller.carregaTabelaOrdenada(jTableProdutos, false);
-        }        // TODO add your handling code here:
+        }         // TODO add your handling code here:
     }//GEN-LAST:event_b_ordenarActionPerformed
 
     private void txt_buscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscaActionPerformed
@@ -450,11 +497,13 @@ public class GerenciaProduto extends javax.swing.JFrame {
     private javax.swing.JTextField c_nome;
     private javax.swing.JTextField c_preco;
     private javax.swing.JTextField c_quantidade;
+    private javax.swing.JComboBox cb_fornecedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableProdutos;
     private javax.swing.JTextField txt_busca;
