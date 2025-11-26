@@ -36,37 +36,7 @@ public class ProdutoDAO {
     }
 
     public Connection getConexao() {
-
-        Connection connection = null;
-
-        try {
-            String driver = "com.mysql.cj.jdbc.Driver";
-            Class.forName(driver);
-
-            String server = "estoque-ps6711534-f574.d.aivencloud.com:19913/defaultdb?ssl-mode=REQUIRED";
-            String database = "defaultdb";
-            String url = "jdbc:mysql://" + server + ":19913/" + database;
-            String user = "avnadmin";
-            String password = "AVNS_qUgty15qAyx3rTYNp5F";
-
-            connection = DriverManager.getConnection(url, user, password);
-
-            if (connection != null) {
-                System.out.println("Status: Conectado!");
-            } else {
-                System.out.println("Status: NÃO CONECTADO!");
-            }
-
-            return connection;
-
-        } catch (ClassNotFoundException e) {
-            System.out.println("O driver nao foi encontrado. " + e.getMessage());
-            return null;
-
-        } catch (SQLException e) {
-            System.out.println("Nao foi possivel conectar...");
-            return null;
-        }
+        return ConexaoDB.getConexao();
     }
 
     public ArrayList<Produto> getMinhaLista() {
