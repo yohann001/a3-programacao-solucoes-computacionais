@@ -11,6 +11,13 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.io.File;
+import java.io.FileWriter;
+import java.awt.Desktop;
+import java.util.ArrayList;
+import Model.Produto;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 
 /**
@@ -149,7 +156,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
         setTitle(" ");
         setAlwaysOnTop(true);
 
-        jButton1.setText("Gerar Relatório ");
+        jButton1.setText("Gerar Relatório (.doc)");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -236,8 +243,8 @@ public class RelatorioProduto extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(txt_busca_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1)
@@ -306,8 +313,52 @@ public class RelatorioProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_JButtonCancelarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        txt_busca_relatorio.setText("");
-        controller.carregaTabela(jTableRelatorio);
+       try {
+       
+        ArrayList<Produto> lista = dao.getMinhaLista();
+
+   
+        StringBuilder doc = new StringBuilder();
+        doc.append("<html xmlns:o='urn:schemas-microsoft-com🏢office' xmlns:w='urn:schemas-microsoft-com🏢word' xmlns='http://www.w3.org/TR/REC-html40'>");
+        doc.append("<head><meta charset='utf-8'><title>Relatório</title></head>");
+        doc.append("<body style='font-family: Arial; font-size: 12pt;'>");
+        doc.append("<h1 style='text-align: center; font-size: 18pt; font-weight: bold;'>RELATÓRIO DOS PRODUTOS</h1><hr><br>");
+
+        int contador = 1;
+        for (Produto p : lista) {
+            
+            doc.append("<p style='margin-bottom: 20px;'>");
+            doc.append("<b>Produto ").append(contador++).append(":</b><br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;ID: ").append(p.getId_produto()).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Nome: ").append(p.getNome_produto()).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Descrição: ").append(p.getDescricao_produto()).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Quantidade: ").append(p.getQuantidade_estoque()).append("<br>");    
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Preço: R$ ").append(String.format("%.2f", p.getPreco())).append("<br>");     
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Data Cadastro: ").append(p.getData_cadastro()).append("<br>");
+            String atualizacao = (p.getData_Atualizacao() != null) ? p.getData_Atualizacao().toString() : "N/A";
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Data Atualização: ").append(atualizacao).append("<br>");
+            doc.append("</p>");
+            doc.append("<br>"); 
+        }
+        doc.append("</body></html>");
+           
+        
+        File arquivo = new File("Relatorio_Produtos.doc");
+        FileWriter writer = new FileWriter(arquivo);
+        writer.write(doc.toString());
+        writer.close();
+
+       
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(arquivo);
+        } else {
+            JOptionPane.showMessageDialog(this, "Relatório salvo em: " + arquivo.getAbsolutePath());
+        }
+        } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+                
+    }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

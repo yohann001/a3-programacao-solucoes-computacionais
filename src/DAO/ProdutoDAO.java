@@ -183,10 +183,7 @@ public class ProdutoDAO {
         }
         return objeto;
     }
-
     //ADICIONAIS
-     
-  
 
     public List<Produto> buscarProdutosPorTermo(String termo) {
     
