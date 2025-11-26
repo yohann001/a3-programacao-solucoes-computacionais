@@ -181,13 +181,13 @@ public class RelatorioProduto extends javax.swing.JFrame {
 
         jTableRelatorio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastro", "Data Atualização"
+                "Id", "Nome", "Descrição", "Quantidade", "Preço", "Data Cadastro", "Data Atualização", "Fornecedor"
             }
         ));
         jTableRelatorio.setColumnSelectionAllowed(true);
@@ -228,8 +228,8 @@ public class RelatorioProduto extends javax.swing.JFrame {
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(114, 114, 114)
                                 .addComponent(JButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(108, 108, 108)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(93, 93, 93)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(20, Short.MAX_VALUE))))
         );
@@ -337,6 +337,7 @@ public class RelatorioProduto extends javax.swing.JFrame {
             doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Data Cadastro: ").append(p.getData_cadastro()).append("<br>");
             String atualizacao = (p.getData_Atualizacao() != null) ? p.getData_Atualizacao().toString() : "N/A";
             doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Data Atualização: ").append(atualizacao).append("<br>");
+            doc.append("&nbsp;&nbsp;&nbsp;&nbsp;Fornecedor (ID): ").append(p.getId_fornecedor()).append("<br>");
             doc.append("</p>");
             doc.append("<br>"); 
         }
