@@ -165,7 +165,8 @@ public class ProdutoControllers {
                 a.getQuantidade_estoque(),
                 a.getPreco(),
                 a.getData_cadastro(),
-                a.getData_Atualizacao()
+                a.getData_Atualizacao(),
+                a.getId_fornecedor()
             });
         }
     }
@@ -221,7 +222,8 @@ public class ProdutoControllers {
                 a.getQuantidade_estoque(),
                 a.getPreco(),
                 a.getData_cadastro(),
-                a.getData_Atualizacao()
+                a.getData_Atualizacao(),
+                a.getId_fornecedor()
             });
         }
     }
