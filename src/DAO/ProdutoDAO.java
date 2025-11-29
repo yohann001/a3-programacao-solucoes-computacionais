@@ -148,6 +148,8 @@ public class ProdutoDAO {
                 objeto.setPreco(res.getDouble("preco"));
                 objeto.setData_cadastro(res.getDate("data_cadastro").toLocalDate());
                 objeto.setData_Atualizacao(res.getDate("data_atualizacao").toLocalDate());
+                objeto.setId_fornecedor(res.getInt("id_fornecedor"));
+                
             }
 
             stmt.close();

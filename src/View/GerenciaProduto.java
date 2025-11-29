@@ -390,14 +390,27 @@ public class GerenciaProduto extends javax.swing.JFrame {
                 int idProduto = Integer.parseInt(idString);
 
                 Model.Produto pCompleto = dao.carregaProduto(idProduto);
+                
                 int idFornecedorDoProduto = pCompleto.getId_fornecedor();
 
+             
+
                 for (int i = 0; i < cb_fornecedor.getItemCount(); i++) {
-                    Model.Fornecedor f = (Model.Fornecedor) cb_fornecedor.getItemAt(i);
-                    if (f.getId() == idFornecedorDoProduto) {
-                        cb_fornecedor.setSelectedIndex(i);
-                        break;
-                    }
+                    
+                    Object item = cb_fornecedor.getItemAt(i);
+
+                    if (item instanceof Model.Fornecedor) {
+                        Model.Fornecedor f = (Model.Fornecedor) item;
+                        
+                        
+                        if (String.valueOf(f.getId()).equals(String.valueOf(idFornecedorDoProduto))) {
+                            
+                            cb_fornecedor.setSelectedIndex(i);
+                            break;
+                        }
+                    } 
+                   
+                    
                 }
             } catch (Exception e) {
                 System.out.println("Erro ao selecionar fornecedor: " + e.getMessage());
